@@ -1,11 +1,10 @@
-
 .main-register {
     position: relative;
     min-height: 100vh;
     background-color: #191919;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     /* font-family: "Fira Sans", Helvetica, Arial, sans-serif; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -39,8 +38,8 @@
 
 .form-structor::after {
     content: "";
-    opacity: 0.3;
-    filter: blur(2px);
+    opacity: 0.29;
+    filter: blur(1px);
     position: absolute;
     top: 0;
     right: 0;
@@ -48,8 +47,8 @@
     left: 0;
     background-repeat: no-repeat;
     background-position: left bottom;
-    background-size: 550px;
-    background-image: url("https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80");
+    background-size: 1100px;
+    background-image: url("https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=890&q=80");
 }
 
 .form-structor .signup {
@@ -132,15 +131,17 @@
 }
 
 .form-structor .signup .submit-btn {
-    background-color:#068FFF;
+    background-color: #068FFF;
     color: #fff;
     border: 0;
     border-radius: 15px;
+    text-align: center;
     display: block;
     margin: 15px auto;
-    padding: 15px 45px;
+    /* padding: 24px 45px; */
+    height: 40px;
     width: 100%;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     opacity: 1;
@@ -248,7 +249,8 @@
     border-radius: 15px;
     display: block;
     margin: 15px auto;
-    padding: 15px 45px;
+    /* padding: 15px 45px; */
+    height: 40px;
     width: 100%;
     font-size: 13px;
     font-weight: bold;
