@@ -1,10 +1,11 @@
-import './App.css'
+import Auth from "./pages/auth"
+
 
 function App() {
 
   return (
     <>
-      Jai Shree Ganesh 🙏
+      <Auth />
     </>
   )
 }
