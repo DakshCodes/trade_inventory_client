@@ -1,15 +1,19 @@
 // import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useEffect } from 'react'
 import './auth.css'
-import { Button, Form, Input } from 'antd';
-import {Link} from "react-router-dom"
+import { Button, Form, Input, message } from 'antd';
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { SetLoader } from '../../redux/loadersSlice'
+import {LoginUser, RegisterUser} from "../../apicalls/users"
 
 const Auth = () => {
-    // const router = useRouter();
 
-    // const navigate = () => {
-    //     router.push("/");
-    // }
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const[msg , setMsg] = React.useState("");
+
     const rules = [
         {
             required: true,
@@ -43,9 +47,57 @@ const Auth = () => {
         });
     }
 
-    const onFinish = () => { }
+    const logInOnFinish = async (values) => {
+        try {
+            dispatch(SetLoader(true));
+            const response = await LoginUser(values);
+            dispatch(SetLoader(false));
 
-    return (<>
+            if (response.success) {
+                message.success(response.message)
+                localStorage.setItem("token", response.data);
+                navigate("/")
+            } else {
+                throw new Error(response.message);
+            }
+
+        } catch (error) {
+            dispatch(SetLoader(false));
+            console.log(error)
+            message.error(error.message);
+        }
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/")
+        }
+    }, [])
+
+    const registerOnFinish = async (values) => {
+        try {
+            dispatch(SetLoader(true));
+            console.log(import.meta.env.VITE_APP_SERVER_URL)
+            const response = await RegisterUser(values);
+            dispatch(SetLoader(false));
+            if (response.success) {
+                message.success(response.message)
+                setMsg(response.message)
+                // navigate("/login")
+            } else {
+                throw new Error(response.message);
+            }
+
+        } catch (error) {
+            dispatch(SetLoader(false));
+
+            message.error(error.message);
+        }
+    }
+
+
+return (
+    <>
         <div className='main-register'>
             <div className="form-structor">
                 <div className="signup ">
@@ -53,22 +105,22 @@ const Auth = () => {
                     {/* This Div to remove */}
                     <Form
                         layout="vertical"
-                        onFinish={onFinish}
+                        onFinish={registerOnFinish}
                         className='mt-20'
                     >
                         <Form.Item label="" name={"name"} rules={rules}>
-                            <Input  className=' h-[2.5rem] placeholder-gray-500 placeholder:font-semibold'  placeholder='Name?' />
+                            <Input className=' h-[2.5rem] placeholder-gray-500 placeholder:font-semibold' placeholder='Name?' />
                         </Form.Item>
                         <Form.Item label="" name={"email"} rules={rules}>
-                            <Input  className='h-[2.5rem] placeholder-gray-500 placeholder:font-semibold'  placeholder='Email?' />
+                            <Input className='h-[2.5rem] placeholder-gray-500 placeholder:font-semibold' placeholder='Email?' />
                         </Form.Item>
                         <Form.Item label="" name={"password"} rules={rules}>
-                            <Input  className='h-[2.5rem] placeholder-gray-500 placeholder:font-semibold' type='password' placeholder='Password' />
+                            <Input className='h-[2.5rem] placeholder-gray-500 placeholder:font-semibold' type='password' placeholder='Password' />
                         </Form.Item>
 
-                        <Form.Item label="" name={"confirmpassword"} rules={rules}>
-                            <Input   className='h-[2.5rem] placeholder-gray-500 placeholder:font-semibold' type='confirmpassword' placeholder='Confirm Password' />
-                        </Form.Item>
+                        {/* <Form.Item label="" name={"confirmpassword"} rules={rules}>
+                            <Input className='h-[2.5rem] placeholder-gray-500 placeholder:font-semibold' type='confirmpassword' placeholder='Confirm Password' />
+                        </Form.Item> */}
 
 
                         <Button type='primary' className='submit-btn' block htmlType='submit'>Register</Button>
@@ -83,7 +135,7 @@ const Auth = () => {
                         {/* This Div to remove */}
                         <Form
                             layout="vertical"
-                            onFinish={onFinish}
+                            onFinish={logInOnFinish}
                             className='mt-16'
                         >
 
@@ -96,7 +148,7 @@ const Auth = () => {
 
 
 
-                                <Button type='primary' className='submit-btn h-[40px]' block htmlType='submit'>Login</Button>
+                            <Button type='primary' className='submit-btn h-[40px]' block htmlType='submit'>Login</Button>
 
 
                         </Form>
@@ -112,7 +164,8 @@ const Auth = () => {
             </div>
         </div>
     </>
-    )
+)
 }
+
 
 export default Auth
