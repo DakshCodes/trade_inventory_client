@@ -19,7 +19,7 @@ function App() {
         {loading && <Spinner />}
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<ProtectedPage />} />
+            <Route path='/' element={<ProtectedPage><Home /></ProtectedPage>} />
             <Route path='/auth' element={<Auth />} />
             <Route path='/users/confirm/:token' element={<Verified />} />
             <Route path='/forget-password' element={<ForgetPassword />} />
