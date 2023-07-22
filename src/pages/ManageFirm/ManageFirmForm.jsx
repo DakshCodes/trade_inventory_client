@@ -109,7 +109,7 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
                         </Row>
 
                         {/* Header img */}
-                        <Image title={"Header Image"} />
+                        <Image title={"Header Image"} selectedFirm = {selectedFirm} getData ={getData}  />
 
                         {/* Contact Person */}
                         <h1 className="text-3xl mt-8">Contact Person</h1>
@@ -139,7 +139,7 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
                             </Col>
                         </Row>
 
-                        <Image title={"Footer Image"} />
+                        <Image title={"Footer Image"} selectedFirm = {selectedFirm} getData ={getData}/>
                     </Form>
 
 

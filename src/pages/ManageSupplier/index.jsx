@@ -8,37 +8,9 @@ import ManageSupplierForm from '../ManageSupplier/ManageSupplierForm';
 import { DeleteSupplier, GetSuppliers } from '../../apicalls/supplier';
 import { GrEdit } from "react-icons/gr"
 import { RiDeleteBin4Fill } from "react-icons/Ri"
+import "../../index.css"
 
-const states = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal"
-]
+
 
 const ManageSupplier = () => {
     const [selectedSupplier, setSelectedSupplier] = React.useState(null);
@@ -50,12 +22,22 @@ const ManageSupplier = () => {
 
     const columns = [
         {
-            title: "Supplier Name",
-            dataIndex: "supplier_name",
+            title: "S.NO",
+            render : (text , record , index) =>(
+                <div className="py-4 h-[100%] text-center">{index + 1}</div>
+            )
+
         },
         {
-            title: "Supplier Code",
-            dataIndex: "supplier_code",
+            title: "Supplier Name",
+            dataIndex: "supplier_name",
+            
+
+        },
+        {
+            title: "Supplier GST",
+            dataIndex: "supplier_GST",
+            
         },
         {
             title: "Supplier M/No",
@@ -89,7 +71,7 @@ const ManageSupplier = () => {
                             className='ri-pencil-line cursor-pointer'
                             onClick={() => {
                                 setSelectedSupplier(record);
-                                setShowProductForm(true)
+                                setShowSupplierForm(true)
                             }}
                         />
                         <RiDeleteBin4Fill
@@ -145,21 +127,27 @@ const ManageSupplier = () => {
 
     return (
         <div>
-            <div className="flex gap-4 justify-end mb-4">
+            <div className="flex  gap-4 justify-between   mb-4">
 
-                <div className='flex p-2  border border-solid items-center justify-center cursor-pointer'
-                    onClick={() => { window.location.reload(); }}
-                >
-                    Reload
-                </div>
+
                 <button
                     type='primary'
-                    className='bg-sky-500 text-white px-2 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
+                    className='bg-sky-500 text-white px-2 h-[3rem] w-[8rem] hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
                     onClick={() => { setShowSupplierForm(true) }}
                 >Add Supplier</button>
-            </div>
 
-            <Table size='middle' className='overflow-x-scroll rounded-md border border-solid border-gray-400' columns={columns} dataSource={Suppliers} />
+                <div>
+                    Search
+                </div>
+
+            </div>
+            <Table
+                size='middle'
+                className='overflow-x-scroll rounded-md border border-solid border-gray-400'
+                columns={columns} dataSource={suppliers}
+                
+            />
+
 
 
             {/* {showProductForm && <ProductsForms getData={getData} showProductForm={showProductForm} selectedProduct={selectedProduct} setShowProductForm={setShowProductForm} />} */}

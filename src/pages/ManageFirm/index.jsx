@@ -119,16 +119,10 @@ const ManageFirm = () => {
 
     return (
         <div>
-            <div className="flex gap-4 justify-end mb-4">
-
-                <div className='flex p-2  border border-solid items-center justify-center cursor-pointer'
-                    onClick={() => { window.location.reload(); }}
-                >
-                    Reload
-                </div>
+            <div className="flex gap-4 justify-start mb-4">
                 <button
                     type='primary'
-                    className='bg-sky-500 text-white px-2 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
+                    className='bg-sky-500 text-white px-2 h-[3rem] w-[8rem] hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
                     onClick={() => { setShowProductForm(true) }}
                 >Add Firm {showProductForm}</button>
             </div>

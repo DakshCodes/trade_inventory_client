@@ -42,3 +42,14 @@ export const DeleteFirm = async(id) =>{
         return error.message;
     }
 }
+
+// Upload Product Image
+export const UploadFirmImage = async(payload) =>{
+    try {
+        console.log("inside axios")
+        const response = await axiosInstance.put("/api/firms/upload-header-image",payload);
+        return response.data;
+    } catch (error) {
+        return error.message;
+    }
+}
