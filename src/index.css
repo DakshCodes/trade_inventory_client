@@ -18,3 +18,7 @@
     border-color: #0e82fd;
     color: #ffffff;
   }
+
+::-webkit-scrollbar{
+    display: none;
+}  

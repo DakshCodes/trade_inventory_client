@@ -10,13 +10,18 @@ import { GrEdit } from "react-icons/gr"
 import { RiDeleteBin4Fill } from "react-icons/Ri"
 import "../../index.css"
 
+import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
+import { GetMaterialType } from '../../apicalls/materialtype';
+import FinishProductForm from './FinishProductForm';
 
 
-const ManageSupplier = () => {
-    const [selectedSupplier, setSelectedSupplier] = React.useState(null);
-    const [suppliers, setSuppliers] = React.useState([]);
 
-    const [showSupplierForm, setShowSupplierForm] = React.useState(false);
+const FinishProduct = () => {
+    const [selectedFinishProduct, setSelectedFinishProduct] = React.useState(null);
+    const [FinishProduct, setFinishProduct] = React.useState([]);
+    // const [MaterialTypes, setMaterialTypes] = React.useState([]);
+
+    const [showFinishProductForm, setShowFinishProductForm] = React.useState(false);
     const { user } = useSelector((state) => state.users);
     const dispatch = useDispatch();
 
@@ -29,37 +34,35 @@ const ManageSupplier = () => {
 
         },
         {
-            title: "Supplier Name",
-            dataIndex: "supplier_name",
+            title: "HSN",
+            dataIndex: "hsn",
 
 
         },
         {
-            title: "Supplier GST",
-            dataIndex: "supplier_GST",
+            title: "Product Code",
+            dataIndex: "product_code",
+
 
         },
         {
-            title: "Supplier M/No",
-            dataIndex: "supplier_mobile_no",
-        },
-        {
-            title: "Supplier Address",
-            dataIndex: "supplier_address",
-        },
-        {
-            title: "Contact Person",
-            dataIndex: "contact_person",
-        },
-        {
-            title: "Email Id",
-            dataIndex: "person_email",
-        },
+            title: "Product Name",
+            dataIndex: "product_name",
 
+
+        },
         {
-            title: "Added On",
-            dataIndex: "createdAt",
-            render: (text, record) => moment(record.createdAt).format("DD-MM-YYYY hh:mm A"),
+            title: "IGST(%)",
+            dataIndex: "igst",
+
+        },
+        {
+            title: "SGST(%)",
+            dataIndex: "sgst",
+        },
+        {
+            title: "CGST(%)",
+            dataIndex: "cgst",
         },
         {
             title: "Action",
@@ -70,8 +73,8 @@ const ManageSupplier = () => {
                         <GrEdit
                             className='ri-pencil-line cursor-pointer'
                             onClick={() => {
-                                setSelectedSupplier(record);
-                                setShowSupplierForm(true)
+                                setSelectedFinishProduct(record);
+                                setShowFinishProductForm(true)
                             }}
                         />
                         <RiDeleteBin4Fill
@@ -91,11 +94,11 @@ const ManageSupplier = () => {
     const getData = async () => {
         try {
             dispatch(SetLoader(true));
-            const response = await GetSuppliers();
+            const response = await GetMaterial();
             dispatch(SetLoader(false));
             if (response.success) {
-                setSuppliers(response.data);
-                console.log(suppliers)
+                setFinishProduct(response.data);
+                console.log(FinishProduct)
             }
         } catch (error) {
             dispatch(SetLoader(false));
@@ -103,10 +106,12 @@ const ManageSupplier = () => {
         }
     };
 
+    
+
     const deleteProduct = async (id) => {
         try {
             dispatch(SetLoader(true));
-            const response = await DeleteSupplier(id);
+            const response = await DeleteMaterial(id);
             dispatch(SetLoader(false));
             if (response.success) {
                 message.success(response.message);
@@ -121,38 +126,29 @@ const ManageSupplier = () => {
     }
 
 
-    useEffect(() => {
-        getData();
-    }, [])
+    // useEffect(() => {
+    //     getData();
+    // }, [])
 
     return (
         <div>
             <div className="flex  gap-4 justify-between   mb-4">
-
-
                 <button
                     type='primary'
                     className='bg-sky-500 text-white my-4 px-2 h-[2.3rem] w-[9rem]  border-[1px] border-teal-600 border-solid hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
-                    onClick={() => { setShowSupplierForm(true) }}
-                >Add Supplier</button>
+                    onClick={() => { setShowFinishProductForm(true) }}
+                >Add Finish </button>
 
                 <div>
                     Search
                 </div>
 
             </div>
-            <Table
-                size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]'
-                columns={columns} dataSource={suppliers}
-
-            />
-
-
-
+            <Table size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={FinishProduct} />
             {/* {showProductForm && <ProductsForms getData={getData} showProductForm={showProductForm} selectedProduct={selectedProduct} setShowProductForm={setShowProductForm} />} */}
-            {setShowSupplierForm && <ManageSupplierForm getData={getData} setShowSupplierForm={setShowSupplierForm} showSupplierForm={showSupplierForm} selectedSupplier={selectedSupplier} />}
+            {setShowFinishProductForm && <FinishProductForm  getData={getData} setShowFinishProductForm={setShowFinishProductForm} showFinishProductForm={showFinishProductForm} selectedFinishProduct={selectedFinishProduct} />}
         </div>
     )
 }
 
-export default ManageSupplier
+export default FinishProduct;
