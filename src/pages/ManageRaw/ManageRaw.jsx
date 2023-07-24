@@ -4,8 +4,7 @@ import React, { useEffect } from 'react'
 import moment from "moment"
 import { useDispatch, useSelector } from 'react-redux';
 import { SetLoader } from '../../redux/loadersSlice';
-import ManageSupplierForm from '../ManageSupplier/ManageSupplierForm';
-import { DeleteSupplier, GetSuppliers } from '../../apicalls/supplier';
+
 import { GrEdit } from "react-icons/gr"
 import { RiDeleteBin4Fill } from "react-icons/Ri"
 import "../../index.css"
