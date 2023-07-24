@@ -122,12 +122,12 @@ const ManageFirm = () => {
             <div className="flex gap-4 justify-start mb-4">
                 <button
                     type='primary'
-                    className='bg-sky-500 text-white px-2 h-[3rem] w-[8rem] hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
+                    className='bg-sky-500 text-white my-4 px-2 h-[2.3rem] w-[9rem]  border-[1px] border-teal-600 border-solid hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
                     onClick={() => { setShowProductForm(true) }}
                 >Add Firm {showProductForm}</button>
             </div>
 
-            <Table size='middle' className='overflow-x-scroll rounded-md border border-solid border-gray-400' columns={columns} dataSource={firms} />
+            <Table size='large' className='scroll-bar px-2   w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={firms} />
 
 
             {/* {showProductForm && <ProductsForms getData={getData} showProductForm={showProductForm} selectedProduct={selectedProduct} setShowProductForm={setShowProductForm} />} */}

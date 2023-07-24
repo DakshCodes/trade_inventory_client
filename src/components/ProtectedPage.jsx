@@ -51,12 +51,12 @@ const ProtectedPage = ({ children }) => {
       <div>
         {/* header */}
         <div className='flex justify-between items-center bg-[#292a2e] p-5'>
-          <div className='text-white cursor-pointer' onClick={() => { navigate("/") }}>
+          <div className='text-white cursor-pointer mx-6' onClick={() => { navigate("/") }}>
             <h1 className='text-2xl font-semibold'>Trade</h1>
             <span>Inventory</span>
             <div className='bg-sky-500 h-[0.2rem]'></div>
           </div>
-          <div className='bg-white rounded-md py-2 px-5 flex items-center gap-8'>
+          <div className='bg-white rounded-md py-2 px-5 mr-6 flex items-center gap-8'>
             <div className='flex items-center gap-2'>
               <img className='w-8' src={user.profilePic} alt="" />
               <span className='underline cursor-pointer' onClick={() => {
@@ -69,7 +69,7 @@ const ProtectedPage = ({ children }) => {
               }}>{user?.name}</span>
 
             </div>
-            <p className="text-md text-black ri-logout-box-r-line cursor-pointer"
+            <p className="text-md text-black/60 hover:text-black hover:scale-110 transition-all duration-500 ri-logout-box-r-line cursor-pointer"
               onClick={() => {
                 localStorage.removeItem("token");
                 navigate("/auth");
