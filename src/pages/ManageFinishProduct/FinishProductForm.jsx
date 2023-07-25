@@ -67,7 +67,7 @@ const FinishProductForm = ({ setShowFinishProductForm,  showFinishProductForm, g
                 onCancel={() => setShowFinishProductForm(false)}
                 width={800}
                 centered
-                okText={`${selectedFinishProduct ? "Save Changes" : "Add Type"}`}
+                okText={`${selectedFinishProduct ? "Save Changes" : "Add Product"}`}
                 onOk={() => {
                     formRef.current.submit();
                 }}
@@ -76,7 +76,7 @@ const FinishProductForm = ({ setShowFinishProductForm,  showFinishProductForm, g
             >
 
                 <div>
-                    <h1 className='font-medium text-3xl mb-4'>Manage Material Type</h1>
+                    <h1 className='font-medium text-3xl mb-4'>Manage Product</h1>
                     <Form
                         layout="vertical"
                         ref={formRef}
@@ -84,8 +84,37 @@ const FinishProductForm = ({ setShowFinishProductForm,  showFinishProductForm, g
                     >
                         <Row gutter={[16, 16]}>
                             <Col span={8}>
-                                <Form.Item label="Type Name" name="material_name" rules={rules}>
-                                    <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="Type Name" />
+                                <Form.Item label="Product Code" name="product_code" rules={rules}>
+                                    <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="Product Code" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label="HSN Code" name="hsn_code" rules={rules}>
+                                    <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="HSN Code" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col span={8}>
+                                <Form.Item label="Product Name" name="product_name" rules={rules}>
+                                    <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="Product Name" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label="IGST(%)" name="igst" rules={rules}>
+                                    <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="0" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col span={8}>
+                                <Form.Item label="SGST(%)" name="sgst" rules={rules}>
+                                    <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="0" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label="CGST(%)" name="cgst" rules={rules}>
+                                    <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="0" />
                                 </Form.Item>
                             </Col>
                         </Row>
