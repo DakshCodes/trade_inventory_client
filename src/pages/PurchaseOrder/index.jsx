@@ -13,6 +13,7 @@ import "../../index.css"
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
 import ManageMaterialTypeForm from '..//MaterialType/ManageMaterialTypeForm';
 import { DeleteMaterialType, GetMaterialType } from '../../apicalls/materialtype';
+import PurchaseOrderForm from './PurchaseOrderForm';
 
 
 
@@ -142,7 +143,7 @@ const PurchasedOrder = () => {
             </div>
             <Table size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={PurchasedOrder} />
             {/* {showProductForm && <ProductsForms getData={getData} showProductForm={showProductForm} selectedProduct={selectedProduct} setShowProductForm={setShowProductForm} />} */}
-            {setShowPurchasedForm && <ManageMaterialTypeForm getData={getData} setShowPurchasedForm={setShowPurchasedForm} showPurchasedForm={showPurchasedForm} selectedPurchasedOrder={selectedPurchasedOrder} />}
+            {setShowPurchasedForm && <PurchaseOrderForm getData={getData} setShowPurchasedForm={setShowPurchasedForm} showPurchasedForm={showPurchasedForm} selectedPurchasedOrder={selectedPurchasedOrder} />}
         </div>
     )
 }

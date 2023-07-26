@@ -6,12 +6,13 @@ import { SetLoader } from "../../redux/loadersSlice"
 
 // import { AddSupplier, EditSupplier } from '../../apicalls/supplier'
 import { AddMaterial, EditMaterial } from '../../apicalls/rawmaterial'
+import { GetMaterialType } from '../../apicalls/materialtype'
 
-const types = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-]
-const ManageRawForm = ({ setShowRawForm, showRawForm, getData, MaterialTypes, selectedRawMaterial }) => {
+
+
+const ManageRawForm = ({ setShowRawForm, showRawForm, getData,MaterialTypes,getDataType, selectedRawMaterial }) => {
+    
+  
     const rules = [
         {
             required: true,
@@ -19,16 +20,25 @@ const ManageRawForm = ({ setShowRawForm, showRawForm, getData, MaterialTypes, se
         }
     ]
 
+    
     const formRef = React.useRef(null);
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.users);
+    
+ 
 
     useEffect(() => {
+    
         if (selectedRawMaterial) {
             formRef.current.setFieldsValue(selectedRawMaterial)
         }
     }, [selectedRawMaterial])
 
+    useEffect(()=>{
+        getDataType();
+    },[])
+
+    console.log(MaterialTypes)
     const onFinish = async (values) => {
         try {
 
@@ -97,13 +107,13 @@ const ManageRawForm = ({ setShowRawForm, showRawForm, getData, MaterialTypes, se
                         <Row gutter={[16, 16]}>
 
                             <Col span={8}>
-                                <Form.Item label="Type" name="type" rules={rules}>
+                                <Form.Item label="Type" name="material_type" rules={rules}>
                                     <select className='w-[15rem] h-[2.5rem] focus:outline-none border border-gray-300 rounded-md px-2'>
                                         <option value=" ">Select</option>
                                         {
                                             MaterialTypes.map((item, index) => {
                                                 return (
-                                                    <option value={item} key={index}>{item}</option>
+                                                    <option value={item.type_name} key={index}>{item.type_name}</option>
                                                 )
                                             })
                                         }
@@ -112,7 +122,7 @@ const ManageRawForm = ({ setShowRawForm, showRawForm, getData, MaterialTypes, se
                             </Col>
 
                             <Col span={8}>
-                                <Form.Item label="GST" name="gst" rules={rules}>
+                                <Form.Item label="GST" name="material_GST" rules={rules}>
                                     <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="G.S.T." />
                                 </Form.Item>
                             </Col>

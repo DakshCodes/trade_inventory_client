@@ -14,11 +14,11 @@ import { GetMaterialType } from '../../apicalls/materialtype';
 
 
 
+
 const ManageRaw = () => {
     const [selectedRawMaterial, setSelectedMaterial] = React.useState(null);
     const [RawMaterial, setRawMaterial] = React.useState([]);
     const [MaterialTypes, setMaterialTypes] = React.useState([]);
-
     const [showRawForm, setShowRawForm] = React.useState(false);
     const { user } = useSelector((state) => state.users);
     const dispatch = useDispatch();
@@ -39,16 +39,16 @@ const ManageRaw = () => {
         },
         {
             title: "Type",
-            dataIndex: "type",
+            dataIndex: "material_type",
 
         },
         {
             title: "Description",
-            dataIndex: "Description",
+            dataIndex: "description",
         },
         {
             title: "GST(%)",
-            dataIndex: "",
+            dataIndex: "material_GST",
         },
         {
             title: "Action",
@@ -92,20 +92,7 @@ const ManageRaw = () => {
         }
     };
 
-    const getDatatype = async () => {
-        try {
-            dispatch(SetLoader(true));
-            const response = await GetMaterialType();
-            dispatch(SetLoader(false));
-            if (response.success) {
-                setMaterialTypes(response.data);
-                console.log(RawMaterial)
-            }
-        } catch (error) {
-            dispatch(SetLoader(false));
-            message.error(error.message);
-        }
-    };
+
 
     const deleteProduct = async (id) => {
         try {
@@ -124,10 +111,26 @@ const ManageRaw = () => {
         }
     }
 
+    const getDatatype = async () => {
+        try {
+            dispatch(SetLoader(true));
+            const response = await GetMaterialType();
+            dispatch(SetLoader(false));
+            if (response.success) {
+                console.log(RawMaterial)
+                setMaterialTypes(response.data)
+            }
+        } catch (error) {
+            dispatch(SetLoader(false));
+            message.error(error.message);
+        }
+    };
 
-    // useEffect(() => {
-    //     getData();
-    // }, [])
+
+    useEffect(() => {
+        getData();
+        // getDatatype();
+    }, [])
 
     return (
         <div>
@@ -145,7 +148,7 @@ const ManageRaw = () => {
             </div>
             <Table size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={RawMaterial} />
             {/* {showProductForm && <ProductsForms getData={getData} showProductForm={showProductForm} selectedProduct={selectedProduct} setShowProductForm={setShowProductForm} />} */}
-            {setShowRawForm && <ManageRawForm MaterialTypes={MaterialTypes} getData={getData} setShowRawForm={setShowRawForm} showRawForm={showRawForm} selectedRawMaterial={selectedRawMaterial} />}
+            {setShowRawForm && <ManageRawForm getDataType={getDatatype} MaterialTypes={MaterialTypes} getData={getData} setShowRawForm={setShowRawForm} showRawForm={showRawForm} selectedRawMaterial={selectedRawMaterial} />}
         </div>
     )
 }

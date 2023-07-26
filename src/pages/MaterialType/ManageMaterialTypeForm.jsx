@@ -1,11 +1,7 @@
 import { Col, Form, Input, Modal, Row, Tabs, message } from 'antd'
-import TextArea from 'antd/es/input/TextArea'
 import { useDispatch, useSelector } from "react-redux"
 import React, { useEffect } from 'react'
 import { SetLoader } from "../../redux/loadersSlice"
-
-// import { AddSupplier, EditSupplier } from '../../apicalls/supplier'
-import { AddMaterial, EditMaterial } from '../../apicalls/rawmaterial'
 import { AddMaterialType, EditMaterialType } from '../../apicalls/materialtype'
 
 const states = [
@@ -19,6 +15,7 @@ const ManageMaterialTypeForm = ({ setShowMaterialTypeForm, showMaterialTypeForm,
             message: "Required",
         }
     ]
+    
 
     const formRef = React.useRef(null);
     const dispatch = useDispatch();
@@ -46,8 +43,9 @@ const ManageMaterialTypeForm = ({ setShowMaterialTypeForm, showMaterialTypeForm,
             dispatch(SetLoader(false));
             if (response.success) {
                 message.success(response.message);
+
                 getData();
-                setShowRawForm(false);
+                setShowMaterialTypeForm(false);
                 formRef.current.resetFields();
             }
             else {
@@ -84,7 +82,7 @@ const ManageMaterialTypeForm = ({ setShowMaterialTypeForm, showMaterialTypeForm,
                     >
                         <Row gutter={[16, 16]}>
                             <Col span={8}>
-                                <Form.Item label="Type Name" name="material_name" rules={rules}>
+                                <Form.Item label="Type Name" name="type_name" rules={rules}>
                                     <Input className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="Type Name" />
                                 </Form.Item>
                             </Col>

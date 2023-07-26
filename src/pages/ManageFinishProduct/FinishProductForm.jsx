@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import React, { useEffect } from 'react'
 import { SetLoader } from "../../redux/loadersSlice"
 
-// import { AddSupplier, EditSupplier } from '../../apicalls/supplier'
-import { AddMaterial, EditMaterial } from '../../apicalls/rawmaterial'
-import { AddMaterialType, EditMaterialType } from '../../apicalls/materialtype'
+import { AddFinishProduct, EditFinishProduct } from '../../apicalls/finishproducts'
 
 const states = [
     "Andhra Pradesh",
@@ -38,9 +36,9 @@ const FinishProductForm = ({ setShowFinishProductForm,  showFinishProductForm, g
             let response = null;
 
             if (selectedFinishProduct) {
-                response = await EditMaterialType(selectedFinishProduct._id, values);
+                response = await EditFinishProduct(selectedFinishProduct._id, values);
             } else {
-                response = await AddMaterialType(values);  //we need to specify the response vvariable otherwise it wont work
+                response = await AddFinishProduct(values);  //we need to specify the response vvariable otherwise it wont work
             }
 
             dispatch(SetLoader(false));

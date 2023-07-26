@@ -13,6 +13,7 @@ import "../../index.css"
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
 import { GetMaterialType } from '../../apicalls/materialtype';
 import FinishProductForm from './FinishProductForm';
+import { DeleteFinishProduct, GetFinishProduct } from '../../apicalls/finishproducts';
 
 
 
@@ -35,7 +36,7 @@ const FinishProduct = () => {
         },
         {
             title: "HSN",
-            dataIndex: "hsn",
+            dataIndex: "hsn_code",
 
 
         },
@@ -94,7 +95,7 @@ const FinishProduct = () => {
     const getData = async () => {
         try {
             dispatch(SetLoader(true));
-            const response = await GetMaterial();
+            const response = await GetFinishProduct();
             dispatch(SetLoader(false));
             if (response.success) {
                 setFinishProduct(response.data);
@@ -111,7 +112,7 @@ const FinishProduct = () => {
     const deleteProduct = async (id) => {
         try {
             dispatch(SetLoader(true));
-            const response = await DeleteMaterial(id);
+            const response = await DeleteFinishProduct(id);
             dispatch(SetLoader(false));
             if (response.success) {
                 message.success(response.message);
@@ -126,9 +127,9 @@ const FinishProduct = () => {
     }
 
 
-    // useEffect(() => {
-    //     getData();
-    // }, [])
+    useEffect(() => {
+        getData();
+    }, [])
 
     return (
         <div>

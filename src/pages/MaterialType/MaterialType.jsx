@@ -1,16 +1,15 @@
 import { Button, Table, message } from 'antd'
 import React, { useEffect } from 'react'
-// import ProductsForms from './ProductsForms';
+
 import moment from "moment"
 import { useDispatch, useSelector } from 'react-redux';
 import { SetLoader } from '../../redux/loadersSlice';
-import ManageSupplierForm from '../ManageSupplier/ManageSupplierForm';
-// import { DeleteSupplier, GetSuppliers } from '../../apicalls/supplier';
+
+import { DeleteSupplier, GetSuppliers } from '../../apicalls/supplier';
 import { GrEdit } from "react-icons/gr"
 import { RiDeleteBin4Fill } from "react-icons/Ri"
 import "../../index.css"
-// import ManageRawForm from './ManageRawForm';
-import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
+
 import ManageMaterialTypeForm from './ManageMaterialTypeForm';
 import { DeleteMaterialType, GetMaterialType } from '../../apicalls/materialtype';
 
@@ -34,8 +33,7 @@ const MaterialType = () => {
         },
         {
             title: "Material Type",
-            dataIndex: "material_Type",
-
+            dataIndex: "type_name",
 
         },
         {
@@ -72,7 +70,7 @@ const MaterialType = () => {
             dispatch(SetLoader(false));
             if (response.success) {
                 setMaterialType(response.data);
-                console.log(RawMaterial)
+                
             }
         } catch (error) {
             dispatch(SetLoader(false));
@@ -98,9 +96,9 @@ const MaterialType = () => {
     }
 
 
-    // useEffect(() => {
-    //     getData();
-    // }, [])
+    useEffect(() => {
+        getData();
+    }, [])
 
     return (
         <div>

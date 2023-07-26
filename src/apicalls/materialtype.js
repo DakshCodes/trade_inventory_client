@@ -5,7 +5,7 @@ import { axiosInstance } from "./axiosInstance";
 
 export const AddMaterialType = async (payload) => {
     try {
-        const response = await axiosInstance.post("/api/rawmaterialtype/add-rawmaterialtype", payload);
+        const response = await axiosInstance.post("/api/materialtype/add-materialtype", payload);
         return response.data;
     } catch (error) {
         return error.message;
@@ -16,7 +16,7 @@ export const AddMaterialType = async (payload) => {
 // Get suppliers
 export const GetMaterialType = async () => {
     try {
-        const response = await axiosInstance.get("/api/rawmaterialtype/get-rawmaterialtype");
+        const response = await axiosInstance.get("/api/materialtype/get-materialtype");
         return response.data;
     } catch (error) {
         return error.message;
@@ -26,7 +26,7 @@ export const GetMaterialType = async () => {
 // edit a supplier
 export const EditMaterialType = async (id, payload) => {
     try {
-        const response = await axiosInstance.put(`/api/rawmaterialtype/edit-rawmaterialtype/${id}`, payload);
+        const response = await axiosInstance.put(`/api/materialtype/edit-materialtype/${id}`, payload);
         return response.data
     } catch (error) {
         return error.message;
@@ -36,7 +36,7 @@ export const EditMaterialType = async (id, payload) => {
 // delete supplier
 export const DeleteMaterialType = async (id) => {
     try {
-        const response = await axiosInstance.delete(`/api/rawmaterialtype/delete-rawmaterialtype/${id}`);
+        const response = await axiosInstance.delete(`/api/materialtype/delete-materialtype/${id}`);
         return response.data;
     } catch (error) {
         return error.message;
