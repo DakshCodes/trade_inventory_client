@@ -38,7 +38,7 @@ const ManageRawForm = ({ setShowRawForm, showRawForm, getData,MaterialTypes,getD
         getDataType();
     },[])
 
-    console.log(MaterialTypes)
+    // console.log(MaterialTypes)
     const onFinish = async (values) => {
         try {
 

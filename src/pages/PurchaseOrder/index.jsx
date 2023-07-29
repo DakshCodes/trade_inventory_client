@@ -38,7 +38,7 @@ const PurchasedOrder = () => {
             dispatch(SetLoader(false));
             if (response.success) {
                 setPurchaseData(response.data);
-                console.log("purchase : ", response.data)
+                // console.log("purchase : ", response.data)
             }
         } catch (error) {
             dispatch(SetLoader(false));
@@ -53,7 +53,7 @@ const PurchasedOrder = () => {
             dispatch(SetLoader(false));
             if (response.success) {
                 setFinishedProduct(response.data)
-                console.log(response.data)
+                // console.log(response.data)
             }
         } catch (error) {
             dispatch(SetLoader(false));
@@ -69,7 +69,7 @@ const PurchasedOrder = () => {
             dispatch(SetLoader(false));
             if (response.success) {
                 setRawMaterials(response.data)
-                console.log(response.data)
+                // console.log(response.data)
             }
         } catch (error) {
             dispatch(SetLoader(false));

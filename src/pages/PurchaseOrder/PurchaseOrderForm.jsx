@@ -3,10 +3,10 @@ import TextArea from 'antd/es/input/TextArea'
 import { useDispatch, useSelector } from "react-redux"
 import React, { useEffect, useState } from 'react'
 import { SetLoader } from "../../redux/loadersSlice"
-import { AddPurchaseOrder, EditPurchaseOrder} from '../../apicalls/purchases'
+import { AddPurchaseOrder, EditPurchaseOrder } from '../../apicalls/purchases'
 
 
-const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers, setShowPurchasedForm, showPurchasedForm, selectedPurchasedOrder }) => {
+const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, suppliers, setShowPurchasedForm, showPurchasedForm, selectedPurchasedOrder }) => {
     const rules = [
         {
             required: true,
@@ -17,8 +17,13 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
     const formRef = React.useRef(null);
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.users);
+    let min = 10000000000000;
+    let max = 99999999999999;
 
 
+    const [MaterialPV, setMaterialPV] = useState(0)
+    const [FinishPV, setFinishPV] = useState(0)
+    const [po_no, setPo_no] = useState(Math.round(Math.random() * (max - min) + min))
     const [inputFields, setInputFields] = useState([
         {}
     ])
@@ -33,9 +38,40 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
         if (selectedPurchasedOrder) {
             formRef.current.setFieldsValue(selectedPurchasedOrder)
         }
+
+
     }, [selectedPurchasedOrder])
 
+    const onchangepo = () => {
 
+        setPo_no(Math.round(Math.random() * (max - min) + min))
+    }
+
+    const handleValueMaterial = (e) => {
+        console.log(e.target.value);
+        setMaterialPV(e.target.value);
+    }
+    console.log(MaterialPV);
+    const handleValueMaterial2 = (e) => {
+        console.log(e.target.value);
+        setMaterialPV((MaterialPV * e.target.value));
+    }
+    console.log(MaterialPV);
+    const handleValueFinish = (e) => {
+        console.log(e.target.value);
+        setFinishPV(e.target.value);
+    }
+    console.log(FinishPV);
+    const handleValueFinish2 = (e) => {
+        console.log(e.target.value);
+        setFinishPV((FinishPV * e.target.value));
+    }
+    console.log(FinishPV);
+
+    // const handleValueMaterial2 = (e) => {
+    //     setMaterialPV(...MaterialPV, e.target.value * MaterialPV);
+    //     console.log(MaterialPV);
+    // }
 
     const onFinish = async (values) => {
         console.log(values)
@@ -50,7 +86,7 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
             } else {
                 response = await AddPurchaseOrder(values);  //we need to specify the response vvariable otherwise it wont work
             }
-            
+
             dispatch(SetLoader(false));
             if (response.success) {
                 message.success(response.message);
@@ -92,8 +128,8 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
                         ref={formRef}
                         onFinish={onFinish}
                     >
-                        <Form.Item label="Purchase order NO" name="po_no" >
-                            <Input disabled={true} className="h-[2.5rem] placeholder-gray-500" type="text" placeholder="" />
+                        <Form.Item label="Purchase order NO" initialValue={po_no} name="po_no" >
+                            <Input disabled={true} className="h-[2.5rem] placeholder-gray-500" type="text" placeholder={po_no} />
                         </Form.Item>
 
                         <Row gutter={[16, 16]}>
@@ -181,7 +217,8 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
                                         rules={rules}
                                     >
                                         <Input
-                                            type="text"
+                                            onChange={handleValueMaterial}
+                                            type="number"
                                             className="h-[2.5rem] placeholder-gray-500"
                                             placeholder="0"
                                         />
@@ -195,7 +232,8 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
                                         rules={rules}
                                     >
                                         <Input
-                                            type="text"
+                                            onChange={handleValueMaterial2}
+                                            type="number"
                                             className="h-[2.5rem] placeholder-gray-500"
                                             placeholder="0"
                                         />
@@ -206,11 +244,13 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
                                         label="Purchase Value"
                                         name={['materials', index, 'purchase_value']} // Use array notation for field names
                                         rules={rules}
+                                        initialValue={MaterialPV}
                                     >
                                         <Input
                                             type="text"
                                             className="h-[2.5rem] placeholder-gray-500"
-                                            placeholder="0"
+                                            placeholder={MaterialPV}
+                                            disabled={true}
                                         />
                                     </Form.Item>
                                 </Col>
@@ -266,9 +306,11 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
                                             label="Order Quantity"
                                             name={['finish_product', index, 'finish_order_quantity']} // Use array notation for field names
                                             rules={rules}
+
                                         >
                                             <Input
-                                                type="text"
+                                                onChange={handleValueFinish}
+                                                type="number"
                                                 className="h-[2.5rem] placeholder-gray-500"
                                                 placeholder="0"
                                             />
@@ -280,9 +322,11 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
                                             label="Rate"
                                             name={['finish_product', index, 'finish_rate']} // Use array notation for field names
                                             rules={rules}
+
                                         >
                                             <Input
-                                                type="text"
+                                                type="number"
+                                                onChange={handleValueFinish2}
                                                 className="h-[2.5rem] placeholder-gray-500"
                                                 placeholder="0"
                                             />
@@ -293,11 +337,13 @@ const PurchaseOrderForm = ({rawMaterials,finishedProduct,getPurchase, suppliers,
                                             label="Purchase Value"
                                             name={['finish_product', index, 'finish_purchase_value']} // Use array notation for field names
                                             rules={rules}
+                                            initialValue={FinishPV}
                                         >
                                             <Input
-                                                type="text"
+                                                type="number"
                                                 className="h-[2.5rem] placeholder-gray-500"
-                                                placeholder="0"
+                                                placeholder={FinishPV}
+                                                disabled={true}
                                             />
                                         </Form.Item>
                                     </Col>
