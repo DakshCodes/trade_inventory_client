@@ -30,8 +30,14 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
 
     const addFields = () => {
         let newfield = {}
-
         setInputFields([...inputFields, newfield])
+    }
+    const DeleteField = () => {
+        let newfield = {}
+        inputFields.filter(() => {
+
+            setInputFields([...inputFields, newfield])
+        })
     }
 
     useEffect(() => {
@@ -43,27 +49,26 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
     }, [selectedPurchasedOrder])
 
     const onchangepo = () => {
-
         setPo_no(Math.round(Math.random() * (max - min) + min))
     }
 
     const handleValueMaterial = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         setMaterialPV(e.target.value);
     }
     console.log(MaterialPV);
     const handleValueMaterial2 = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         setMaterialPV((MaterialPV * e.target.value));
     }
     console.log(MaterialPV);
     const handleValueFinish = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         setFinishPV(e.target.value);
     }
     console.log(FinishPV);
     const handleValueFinish2 = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         setFinishPV((FinishPV * e.target.value));
     }
     console.log(FinishPV);
@@ -75,6 +80,14 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
 
     const onFinish = async (values) => {
         console.log(values)
+        // Update the materials and finish products in the form data
+        values.materials.forEach((material, index) => {
+            material.purchase_value = material.order_quantity * material.rate;
+        });
+        values.finish_product.forEach((finishProduct, index) => {
+            finishProduct.finish_purchase_value = finishProduct.finish_order_quantity * finishProduct.finish_rate;
+        });
+
         try {
 
             dispatch(SetLoader(true));
@@ -243,10 +256,10 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                                     <Form.Item
                                         label="Purchase Value"
                                         name={['materials', index, 'purchase_value']} // Use array notation for field names
-                                        rules={rules}
-                                        initialValue={MaterialPV}
+                                    // rules={rules}
                                     >
                                         <Input
+                                            value={MaterialPV}
                                             type="text"
                                             className="h-[2.5rem] placeholder-gray-500"
                                             placeholder={MaterialPV}
@@ -321,9 +334,7 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                                         <Form.Item
                                             label="Rate"
                                             name={['finish_product', index, 'finish_rate']} // Use array notation for field names
-                                            rules={rules}
-
-                                        >
+                                            rules={rules} >
                                             <Input
                                                 type="number"
                                                 onChange={handleValueFinish2}
@@ -336,10 +347,11 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                                         <Form.Item
                                             label="Purchase Value"
                                             name={['finish_product', index, 'finish_purchase_value']} // Use array notation for field names
-                                            rules={rules}
-                                            initialValue={FinishPV}
+                                        // rules={rules}
+
                                         >
                                             <Input
+                                                value={FinishPV}
                                                 type="number"
                                                 className="h-[2.5rem] placeholder-gray-500"
                                                 placeholder={FinishPV}
