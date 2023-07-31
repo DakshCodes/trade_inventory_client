@@ -27,18 +27,15 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
     const [inputFields, setInputFields] = useState([
         {}
     ])
+    const [inputFields2, setInputFields2] = useState([
+        {}
+    ])
 
     const addFields = () => {
         let newfield = {}
         setInputFields([...inputFields, newfield])
     }
-    const DeleteField = () => {
-        let newfield = {}
-        inputFields.filter(() => {
 
-            setInputFields([...inputFields, newfield])
-        })
-    }
 
     useEffect(() => {
         if (selectedPurchasedOrder) {
@@ -267,11 +264,9 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                                         />
                                     </Form.Item>
                                 </Col>
+                                <button className='border h-[30px] w-24 mt-9 border-black rounded-xl text-black/60 hover:text-black transition-all duration-300' onClick={() => handleDelete(index)} >Delete</button>
                             </Row>
                         ))}
-
-
-
 
                         <div className='flex justify-center items-center'>
                             <button id="addMore" onClick={addFields} className='border px-3 py-2 border-teal-400 rounded-xl text-black/60 hover:text-black transition-all duration-300' >Add more fields</button>
@@ -280,7 +275,7 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                         <h1 className='font-medium text-2xl mb-4'>Finish Product</h1>
                         <div id="fieldList">
                             {/* <h1 className='font-medium text-sm mb-4'>Particulars</h1> */}
-                            {inputFields.map((field, index) => (
+                            {inputFields2.map((field, index) => (
                                 <Row gutter={[25, 25]} key={index}>
                                     <Col span={3}>
                                         <Form.Item
@@ -359,10 +354,11 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                                             />
                                         </Form.Item>
                                     </Col>
+                                    <button className='border h-[30px] w-24 mt-9 border-black rounded-xl text-black/60 hover:text-black transition-all duration-300' onClick={() => handleDelete2(index)}>Delete</button>
                                 </Row>
                             ))}
                             <div className='flex justify-center items-center'>
-                                <button id="addMore" onClick={addFields} className='border px-3 py-2 border-teal-400 rounded-xl text-black/60 hover:text-black transition-all duration-300' >Add more fields</button>
+                                <button id="addMore" onClick={addFields2} className='border px-3 py-2 border-teal-400 rounded-xl text-black/60 hover:text-black transition-all duration-300' >Add more fields</button>
                             </div>
                         </div>
                     </Form>
