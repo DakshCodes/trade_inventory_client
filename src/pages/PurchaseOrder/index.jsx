@@ -11,8 +11,7 @@ import { RiDeleteBin4Fill } from "react-icons/Ri"
 import "../../index.css"
 // import ManageRawForm from './ManageRawForm';
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
-import ManageMaterialTypeForm from '..//MaterialType/ManageMaterialTypeForm';
-import { DeleteMaterialType, GetMaterialType } from '../../apicalls/materialtype';
+import { Link } from "react-router-dom"
 import PurchaseOrderForm from './PurchaseOrderForm';
 import { GetSuppliers } from '../../apicalls/supplier';
 import { DeletePurchaseOrder, GetPurchaseOrders } from '../../apicalls/purchases';
@@ -38,7 +37,7 @@ const PurchasedOrder = () => {
             dispatch(SetLoader(false));
             if (response.success) {
                 setPurchaseData(response.data);
-                // console.log("purchase : ", response.data)
+                console.log("purchase : ", response.data)
             }
         } catch (error) {
             dispatch(SetLoader(false));
@@ -92,10 +91,16 @@ const PurchasedOrder = () => {
         {
             title: "PO Date",
             dataIndex: "order_date",
+            render: (text, record) => {
+                return <Link to={`/purchase-order-preview/${record._id}`}><p className='underline text-blue-500'>{record.order_date}</p></Link>
+
+            }
         },
         {
             title: "Supplier Name",
-            dataIndex: "supplier_name",
+            render : (text,record)=>{
+                return <div>{record.supplier?.supplier_name || record.supplier_name}</div>
+            }
         },
         {
             title: "Order Quantity",
@@ -181,12 +186,23 @@ const PurchasedOrder = () => {
     return (
         <div>
             <div className="flex  gap-4 justify-between   mb-4">
-                <button
-                    type='primary'
-                    className='bg-sky-500 text-white my-4 px-2 h-[2.3rem] w-[10rem]  border-[1px] border-teal-600 border-solid hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
-                    onClick={() => { setShowPurchasedForm(true) }}
-                >Add Purchase Order</button>
+                <div>
 
+                    <button
+                        type='primary'
+                        className='bg-sky-500 text-white my-4 px-2 h-[2.3rem] w-[10rem]  border-[1px] border-teal-600 border-solid hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
+                        onClick={() => { setShowPurchasedForm(true) }}
+                    >Add Purchase Order</button>
+
+                    {/* <button
+                            type='primary'
+                            className='mx-2 bg-sky-500 text-white my-4 px- h-[2.3rem] w-fit  border-[1px] border-teal-600 border-solid hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
+                            onClick={() => { setShowPurchasedForm(true) }}
+                        >Preview</button> */}
+
+
+
+                </div>
                 <div>
                     Search
                 </div>
@@ -202,3 +218,7 @@ const PurchasedOrder = () => {
 }
 
 export default PurchasedOrder;
+
+
+
+

@@ -37,10 +37,38 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
     }
 
 
+    const addFields2 = () => {
+        let newfield2 = {}
+
+        setInputFields2([...inputFields2, newfield2])
+    }
+
+    const handleDelete = (indexToDelete) => {
+        // Create a new array excluding the element at the specified index
+        const updatedArray = inputFields.filter((item, index) => index !== indexToDelete);
+        // Update the state with the new array
+        setInputFields(updatedArray);
+    };
+    const handleDelete2 = (indexToDelete) => {
+        // Create a new array excluding the element at the specified index
+        const updatedArray = inputFields2.filter((item, index) => index !== indexToDelete);
+        // Update the state with the new array
+        setInputFields2(updatedArray);
+    };
+
+    const DeleteField = () => {
+        let newfield = {}
+        inputFields.filter(() => {
+
+            setInputFields([...inputFields, newfield])
+        })
+    }
+
     useEffect(() => {
         if (selectedPurchasedOrder) {
             formRef.current.setFieldsValue(selectedPurchasedOrder)
         }
+        console.log({ selectedPurchasedOrder })
 
 
     }, [selectedPurchasedOrder])
@@ -76,43 +104,46 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
     // }
 
     const onFinish = async (values) => {
-        console.log(values)
         // Update the materials and finish products in the form data
         values.materials.forEach((material, index) => {
-            material.purchase_value = material.order_quantity * material.rate;
+          material.purchase_value = material.order_quantity * material.rate;
         });
         values.finish_product.forEach((finishProduct, index) => {
-            finishProduct.finish_purchase_value = finishProduct.finish_order_quantity * finishProduct.finish_rate;
+          finishProduct.finish_purchase_value = finishProduct.finish_order_quantity * finishProduct.finish_rate;
         });
-
+      
+        // Get the selected supplier ID from the dropdown
+        const selectedSupplierId = values.supplier_name;
+      
+        // Add the supplier ID to the request body
+        values.supplier = selectedSupplierId;
+      
         try {
-
-            dispatch(SetLoader(true));
-
-            let response = null;
-
-            if (selectedPurchasedOrder) {
-                response = await EditPurchaseOrder(selectedPurchasedOrder._id, values);
-            } else {
-                response = await AddPurchaseOrder(values);  //we need to specify the response vvariable otherwise it wont work
-            }
-
-            dispatch(SetLoader(false));
-            if (response.success) {
-                message.success(response.message);
-                getPurchase();
-                setShowPurchasedForm(false);
-                formRef.current.resetFields();
-            }
-            else {
-                message.error(response.message);
-            }
-
+          dispatch(SetLoader(true));
+      
+          let response = null;
+      
+          if (selectedPurchasedOrder) {
+            response = await EditPurchaseOrder(selectedPurchasedOrder._id, values);
+          } else {
+            response = await AddPurchaseOrder(values);
+          }
+      
+          dispatch(SetLoader(false));
+          if (response.success) {
+            message.success(response.message);
+            getPurchase();
+            setShowPurchasedForm(false);
+            formRef.current.resetFields();
+          } else {
+            message.error(response.message);
+          }
         } catch (error) {
-            dispatch(SetLoader(false));
-            message.error(error.message)
+          dispatch(SetLoader(false));
+          message.error(error.message)
         }
-    }
+      }
+      
 
 
     return (
@@ -157,7 +188,7 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                                         {
                                             suppliers.map((item) => {
                                                 return (
-                                                    <option value={item.supplier_name}>{item.supplier_name}</option>
+                                                    <option value={item._id}>{item.supplier_name}</option>
                                                 )
                                             })
                                         }
