@@ -7,7 +7,7 @@ import { SetLoader } from '../../redux/loadersSlice';
 import ManageSupplierForm from '../ManageSupplier/ManageSupplierForm';
 // import { DeleteSupplier, GetSuppliers } from '../../apicalls/supplier';
 import { GrEdit } from "react-icons/gr"
-import { RiDeleteBin4Fill } from "react-icons/Ri"
+import { RiDeleteBin4Fill } from "react-icons/ri"
 import "../../index.css"
 // import ManageRawForm from './ManageRawForm';
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
@@ -90,9 +90,9 @@ const PurchasedOrder = () => {
         },
         {
             title: "PO Date",
-            dataIndex: "order_date",
+            dataIndex: "po_no",
             render: (text, record) => {
-                return <Link to={`/purchase-order-preview/${record._id}`}><p className='underline text-blue-500'>{record.order_date}</p></Link>
+                return <Link to={`/purchase-order-preview/${record._id}`}><p className='underline text-blue-500'>{record.po_no}</p></Link>
 
             }
         },
