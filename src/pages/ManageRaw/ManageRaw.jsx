@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SetLoader } from '../../redux/loadersSlice';
 
 import { GrEdit } from "react-icons/gr"
-import { RiDeleteBin4Fill } from "react-icons/Ri"
+import { RiDeleteBin4Fill } from "react-icons/ri"
 import "../../index.css"
 import ManageRawForm from './ManageRawForm';
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';

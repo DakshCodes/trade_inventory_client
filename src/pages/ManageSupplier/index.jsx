@@ -7,7 +7,7 @@ import { SetLoader } from '../../redux/loadersSlice';
 import ManageSupplierForm from '../ManageSupplier/ManageSupplierForm';
 import { DeleteSupplier, GetSuppliers } from '../../apicalls/supplier';
 import { GrEdit } from "react-icons/gr"
-import { RiDeleteBin4Fill } from "react-icons/Ri"
+import { RiDeleteBin4Fill } from "react-icons/ri"
 import "../../index.css"
 
 
