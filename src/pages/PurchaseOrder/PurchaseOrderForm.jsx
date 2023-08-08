@@ -25,7 +25,7 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
     const [FinishPV, setFinishPV] = useState(0)
     const [po_no, setPo_no] = useState(Math.round(Math.random() * (max - min) + min))
     const [inputFields, setInputFields] = useState([
-        {}
+        {},
     ])
     const [inputFields2, setInputFields2] = useState([
         {}

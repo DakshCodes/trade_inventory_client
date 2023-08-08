@@ -6,7 +6,9 @@ import ManageFirm from '../ManageFirm';
 import ManageRaw from '../ManageRaw/ManageRaw';
 import ManageSupplier from '../ManageSupplier';
 import MaterialType from '../MaterialType/MaterialType';
+import PendingPO from '../PendingPO';
 import PurchasedOrder from '../PurchaseOrder';
+import ReceviedOrder from '../ReceviedPO';
 
 const Home = () => {
   const { user } = useSelector((state) => state.users);
@@ -44,6 +46,12 @@ const Home = () => {
           <Tabs defaultActiveKey="1" className='' >
             <Tabs.TabPane tab="Generate Purchase Orders" key="3">
               <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Pending Purchase Orders" key="4">
+              <PendingPO />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Recevied Purchase Orders" key="5">
+              <ReceviedOrder />
             </Tabs.TabPane>
           </Tabs>
         </Tabs.TabPane>
