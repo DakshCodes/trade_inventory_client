@@ -6,7 +6,7 @@ import { SetLoader } from "../../redux/loadersSlice"
 import { AddPurchaseOrder, EditPurchaseOrder } from '../../apicalls/purchases'
 
 
-const PendingOrderForm = ({ setshowPendingForm,getPurchase, showPendingForm, selectedPendingOrder }) => {
+const PendingOrderForm = ({ setshowPendingForm, getPurchase, showPendingForm, selectedPendingOrder }) => {
     const rules = [
         {
             required: true,
@@ -34,12 +34,14 @@ const PendingOrderForm = ({ setshowPendingForm,getPurchase, showPendingForm, sel
         setPo_no(Math.round(Math.random() * (max - min) + min))
     }
 
-   
+
 
     const onFinish = async (values) => {
-      
-        // Set the received and balanced quantities
 
+        console.log(values)
+        // Set the received and balanced quantities
+        values.balanced_quantity = values.balanced_quantity - values.recevied_quantity;
+        console.log(values.balanced_quantity)
 
         // Get the selected supplier ID from the dropdown
         // const selectedSupplierId = values.supplier_name;
@@ -98,30 +100,25 @@ const PendingOrderForm = ({ setshowPendingForm,getPurchase, showPendingForm, sel
                         ref={formRef}
                         onFinish={onFinish}
                     >
-                        <Row  gutter={[20, 20]}>
-                        <Form.Item span={4} label="Purchase order NO" initialValue={po_no} name="po_no" >
-                            <Input disabled={true} className="h-[2.5rem] placeholder-gray-500" type="text" placeholder={po_no} />
-                        </Form.Item>
-                        <Col span={5}>
-                            <Form.Item label="Order Date" name="order_date" rules={rules}>
-                                <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
+                        <Row gutter={[20, 20]}>
+                            <Form.Item span={4} label="Purchase order NO" initialValue={po_no} name="po_no" >
+                                <Input disabled={true} className="h-[2.5rem] placeholder-gray-500" type="text" placeholder={po_no} />
                             </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item label="Order Date" name="finish_order_quantity" rules={rules}>
-                                <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item label="Balanced Quantity" name="balanced_quantity" rules={rules}>
-                                <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Balanced Quantity" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item label="Recevied Quantity" name="recevied_quantity" rules={rules}>
-                                <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
-                            </Form.Item>
-                        </Col>
+                            <Col span={5}>
+                                <Form.Item label="Order Date" name="order_date" rules={rules}>
+                                    <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item label="Balanced Quantity" name="balanced_quantity" rules={rules}>
+                                    <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Balanced Quantity" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item label="Recevied Quantity" name="recevied_quantity" rules={rules}>
+                                    <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
+                                </Form.Item>
+                            </Col>
                         </Row>
                     </Form>
                 </div>
