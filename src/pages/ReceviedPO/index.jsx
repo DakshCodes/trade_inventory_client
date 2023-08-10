@@ -46,37 +46,12 @@ const ReceviedOrder = () => {
         }
     };
 
-    // const getFinishedProducts = async () => {
-    //     try {
-    //         dispatch(SetLoader(true));
-    //         const response = await GetFinishProduct();
-    //         dispatch(SetLoader(false));
-    //         if (response.success) {
-    //             setFinishedProduct(response.data)
-    //             // console.log(response.data)
-    //         }
-    //     } catch (error) {
-    //         dispatch(SetLoader(false));
-    //         message.error(error.message);
-    //     }
-    // };
+    const filteredData = purchaseData.filter(item =>
+        item.balanced_quantity === '0'
+    );
 
-    // const getRawMaterials = async () => {
-    //     try {
-    //         dispatch(SetLoader(true));
-    //         const response = await GetMaterial();
-
-    //         dispatch(SetLoader(false));
-    //         if (response.success) {
-    //             setRawMaterials(response.data)
-    //             // console.log(response.data)
-    //         }
-    //     } catch (error) {
-    //         dispatch(SetLoader(false));
-    //         message.error(error.message);
-    //     }
-    // };
     useEffect(() => {
+        getPurchase();
         getPurchase();
     }, [])
 
@@ -121,7 +96,7 @@ const ReceviedOrder = () => {
             title: "Recevied Completed",
             render: () => {
                 // Assuming that there's only one item in the finish_product array in this case
-                return <AiOutlineCheck className='text-xl ml-14' />;
+                return <AiOutlineCheck className='text-xl text-center font-semibold' />;
             },
         }
 
@@ -137,8 +112,12 @@ const ReceviedOrder = () => {
                 </div>
 
             </div>
-            <Table size='large' className='scroll-bar px-4     w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={purchaseData} />
-
+            <Table
+                size='large'
+                className='scroll-bar px-4     w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]'
+                columns={columns}
+                dataSource={filteredData}  // Use the filtered data
+            />
         </div>
     )
 }

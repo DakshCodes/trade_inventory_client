@@ -82,6 +82,11 @@ const PendingPO = () => {
         getRawMaterials();
     }, [])
 
+    const filteredData = purchaseData.filter(item =>
+        item.balanced_quantity != '0'
+    );
+
+
     const columns = [
         {
             title: "S.NO",
@@ -182,8 +187,13 @@ const PendingPO = () => {
                     Search
                 </div>
             </div>
-            <Table size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={purchaseData} />
-            {setshowPendingForm && <PendingOrderForm setshowPendingForm={setshowPendingForm} showPendingForm={showPendingForm} selectedPendingOrder={selectedPendingOrder} />}
+            <Table
+                size='large'
+                className='scroll-bar px-4     w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]'
+                columns={columns}
+                dataSource={filteredData}  // Use the filtered data
+            />
+            {setshowPendingForm && <PendingOrderForm setshowPendingForm={setshowPendingForm} showPendingForm={showPendingForm} getPurchase={getPurchase} selectedPendingOrder={selectedPendingOrder} />}
         </div>
     )
 }

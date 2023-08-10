@@ -6,7 +6,7 @@ import { SetLoader } from "../../redux/loadersSlice"
 import { AddPurchaseOrder, EditPurchaseOrder } from '../../apicalls/purchases'
 
 
-const PendingOrderForm = ({ setshowPendingForm, showPendingForm, selectedPendingOrder }) => {
+const PendingOrderForm = ({ setshowPendingForm,getPurchase, showPendingForm, selectedPendingOrder }) => {
     const rules = [
         {
             required: true,
@@ -16,7 +16,6 @@ const PendingOrderForm = ({ setshowPendingForm, showPendingForm, selectedPending
     let min = 10000000000000;
     let max = 99999999999999;
 
-    console.log(showPendingForm)
     const formRef = React.useRef(null);
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.users);
@@ -35,46 +34,18 @@ const PendingOrderForm = ({ setshowPendingForm, showPendingForm, selectedPending
         setPo_no(Math.round(Math.random() * (max - min) + min))
     }
 
-    // const handleValueMaterial = (e) => {
-    //     // console.log(e.target.value);
-    //     setMaterialPV(e.target.value);
-    // }
-    // console.log(MaterialPV);
-    // const handleValueMaterial2 = (e) => {
-    //     // console.log(e.target.value);
-    //     setMaterialPV((MaterialPV * e.target.value));
-    // }
-    // console.log(MaterialPV);
-    // const handleValueFinish = (e) => {
-    //     // console.log(e.target.value);
-    //     setFinishPV(e.target.value);
-    // }
-    // console.log(FinishPV);
-    // const handleValueFinish2 = (e) => {
-    //     // console.log(e.target.value);
-    //     setFinishPV((FinishPV * e.target.value));
-    // }
-    // console.log(FinishPV);
-
-    // const handleValueMaterial2 = (e) => {
-    //     setMaterialPV(...MaterialPV, e.target.value * MaterialPV);
-    //     console.log(MaterialPV);
-    // }
+   
 
     const onFinish = async (values) => {
-        // Update the materials and finish products in the form data
-        values.materials.forEach((material, index) => {
-            material.purchase_value = material.order_quantity * material.rate;
-        });
-        values.finish_product.forEach((finishProduct, index) => {
-            finishProduct.finish_purchase_value = finishProduct.finish_order_quantity * finishProduct.finish_rate;
-        });
+      
+        // Set the received and balanced quantities
+
 
         // Get the selected supplier ID from the dropdown
-        const selectedSupplierId = values.supplier_name;
+        // const selectedSupplierId = values.supplier_name;
 
-        // Add the supplier ID to the request body
-        values.supplier = selectedSupplierId;
+        // // Add the supplier ID to the request body
+        // values.supplier = selectedSupplierId;
 
         try {
             dispatch(SetLoader(true));
@@ -91,7 +62,7 @@ const PendingOrderForm = ({ setshowPendingForm, showPendingForm, selectedPending
             if (response.success) {
                 message.success(response.message);
                 getPurchase();
-                setShowPurchasedForm(false);
+                setshowPendingForm(false);
                 formRef.current.resetFields();
             } else {
                 message.error(response.message);
@@ -133,6 +104,11 @@ const PendingOrderForm = ({ setshowPendingForm, showPendingForm, selectedPending
                         </Form.Item>
                         <Col span={5}>
                             <Form.Item label="Order Date" name="order_date" rules={rules}>
+                                <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item label="Order Date" name="finish_order_quantity" rules={rules}>
                                 <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
                             </Form.Item>
                         </Col>
