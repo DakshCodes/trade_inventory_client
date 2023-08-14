@@ -91,6 +91,8 @@ const PurchasedOrder = () => {
         {
             title: "PO Date",
             dataIndex: "po_no",
+            align :"center",
+
             render: (text, record) => {
                 return <Link to={`/purchase-order-preview/${record._id}`}><p className='underline text-blue-500'>{record.po_no}</p></Link>
 
@@ -98,24 +100,39 @@ const PurchasedOrder = () => {
         },
         {
             title: "Supplier Name",
-            render : (text,record)=>{
+            align :"center",
+
+            render: (text, record) => {
                 return <div>{record.supplier?.supplier_name || record.supplier_name}</div>
             }
         },
         {
-            title: "Order Quantity",
+            title: "Finish Product Order Quantity",
             dataIndex: "finish_product",
-            render: (finishProduct) => {
-                // Assuming that there's only one item in the finish_product array in this case
-                return finishProduct.length > 0 ? finishProduct[0].finish_order_quantity : "-";
+            align :"center",
+            render: (text, record) => {
+
+                const totalOrderQuantity = record.finish_product.reduce(
+                    (total, item) => total + parseInt(item.finish_order_quantity),
+                    0
+                );
+
+                return <div className="text-center">{totalOrderQuantity}</div>;
             },
         },
         {
             title: "Net Value",
             dataIndex: "finish_product",
-            render: (finishProduct) => {
-                // Assuming that there's only one item in the finish_product array in this case
-                return finishProduct.length > 0 ? finishProduct[0].finish_purchase_value : "-";
+            align :"center",
+
+            render: (text, record) => {
+
+                const totalNetValue = record.finish_product.reduce(
+                    (total, item) => total + parseInt(item.finish_purchase_value),
+                    0
+                );
+
+                return <div className="text-center">{totalNetValue}</div>;
             },
         },
         {
@@ -152,7 +169,7 @@ const PurchasedOrder = () => {
             dispatch(SetLoader(false));
             if (response.success) {
                 message.success(response.message);
-                getPurchase();
+                await getPurchase();
             } else {
                 message.error(response.message)
             }
@@ -208,7 +225,7 @@ const PurchasedOrder = () => {
                 </div>
 
             </div>
-            <Table size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={purchaseData} />
+            <Table bordered={true} size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={purchaseData} />
             {/* {showProductForm && <ProductsForms getData={getData} showProductForm={showProductForm} selectedProduct={selectedProduct} setShowProductForm={setShowProductForm} />} */}
             {setShowPurchasedForm && <PurchaseOrderForm rawMaterials={rawMaterials}
                 finishedProduct={finishedProduct}

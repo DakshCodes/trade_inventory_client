@@ -13,6 +13,17 @@ const PendingOrderForm = ({ setshowPendingForm, getPurchase, showPendingForm, se
             message: "Required",
         }
     ]
+
+    // Custom validation rule to check received quantity against balanced quantity
+    const validateReceivedQuantity = (_, value) => {
+        const balancedQuantity = formRef.current.getFieldValue('balanced_quantity');
+        if (value && parseInt(value) > parseInt(balancedQuantity)) {
+            return Promise.reject('Received Quantity cannot exceed Balanced Quantity');
+        }
+        return Promise.resolve();
+    };
+
+
     let min = 10000000000000;
     let max = 99999999999999;
 
@@ -111,11 +122,20 @@ const PendingOrderForm = ({ setshowPendingForm, getPurchase, showPendingForm, se
                             </Col>
                             <Col span={5}>
                                 <Form.Item label="Balanced Quantity" name="balanced_quantity" rules={rules}>
-                                    <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Balanced Quantity" />
+                                    <Input type="text" className="h-[2.5rem] placeholder-gray-500" disabled placeholder="Balanced Quantity" />
                                 </Form.Item>
                             </Col>
                             <Col span={5}>
-                                <Form.Item label="Recevied Quantity" name="recevied_quantity" rules={rules}>
+                            <Form.Item
+                                    label="Received Quantity"
+                                    name="recevied_quantity"
+                                    rules={[
+                                        ...rules,
+                                        {
+                                            validator: validateReceivedQuantity,
+                                        },
+                                    ]}
+                                >
                                     <Input type="text" className="h-[2.5rem] placeholder-gray-500" placeholder="Order Date" />
                                 </Form.Item>
                             </Col>

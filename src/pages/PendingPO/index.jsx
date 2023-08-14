@@ -109,11 +109,17 @@ const PendingPO = () => {
             }
         },
         {
-            title: "Order Quantity",
+            title: "Finish Product Order Quantity",
             dataIndex: "finish_product",
-            render: (finishProduct) => {
-                // Assuming that there's only one item in the finish_product array in this case
-                return finishProduct.length > 0 ? finishProduct[0].finish_order_quantity : "-";
+            align :"center",
+            render: (text, record) => {
+
+                const totalOrderQuantity = record.finish_product.reduce(
+                    (total, item) => total + parseInt(item.finish_order_quantity),
+                    0
+                );
+
+                return <div className="text-center">{totalOrderQuantity}</div>;
             },
         },
         {
@@ -135,9 +141,14 @@ const PendingPO = () => {
         {
             title: "Net Value",
             dataIndex: "finish_product",
-            render: (finishProduct) => {
-                // Assuming that there's only one item in the finish_product array in this case
-                return finishProduct.length > 0 ? finishProduct[0].finish_purchase_value : "-";
+            render: (text, record) => {
+
+                const totalNetValue = record.finish_product.reduce(
+                    (total, item) => total + parseInt(item.finish_purchase_value),
+                    0
+                );
+
+                return <div className="text-center">{totalNetValue}</div>;
             },
         },
         {
@@ -159,26 +170,26 @@ const PendingPO = () => {
         },
     ]
 
-    const [suppliers, setSuppliers] = useState([]);
+    // const [suppliers, setSuppliers] = useState([]);
 
-    const getSupplier = async () => {
-        try {
-            dispatch(SetLoader(true));
-            const response = await GetSuppliers();
-            dispatch(SetLoader(false));
-            if (response.success) {
-                setSuppliers(response.data);
-                console.log(suppliers)
-            }
-        } catch (error) {
-            dispatch(SetLoader(false));
-            message.error(error.message);
-        }
-    };
+    // const getSupplier = async () => {
+    //     try {
+    //         dispatch(SetLoader(true));
+    //         const response = await GetSuppliers();
+    //         dispatch(SetLoader(false));
+    //         if (response.success) {
+    //             setSuppliers(response.data);
+    //             console.log(suppliers)
+    //         }
+    //     } catch (error) {
+    //         dispatch(SetLoader(false));
+    //         message.error(error.message);
+    //     }
+    // };
 
-    useEffect(() => {
-        getSupplier();
-    }, [])
+    // useEffect(() => {
+    //     getSupplier();
+    // }, [])
 
     return (
         <div>
