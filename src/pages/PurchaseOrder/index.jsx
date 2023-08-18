@@ -200,8 +200,6 @@ const PurchasedOrder = () => {
                             onClick={() => { setShowPurchasedForm(true) }}
                         >Preview</button> */}
 
-
-
                 </div>
                 <div>
                     Search

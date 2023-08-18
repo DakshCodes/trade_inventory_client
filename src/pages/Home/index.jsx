@@ -7,6 +7,8 @@ import ManageRaw from '../ManageRaw/ManageRaw';
 import ManageSupplier from '../ManageSupplier';
 import MaterialType from '../MaterialType/MaterialType';
 import PendingPO from '../PendingPO';
+import Proccess1 from '../Proccess-1';
+import Proccess2 from '../Proccess-2';
 import PurchasedOrder from '../PurchaseOrder';
 import ReceviedOrder from '../ReceviedPO';
 
@@ -52,6 +54,40 @@ const Home = () => {
             </Tabs.TabPane>
             <Tabs.TabPane tab="Recevied Purchase Orders" key="5">
               <ReceviedOrder />
+            </Tabs.TabPane>
+          </Tabs>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Proccess" key="4">
+          <Tabs defaultActiveKey="1" className='' >
+            <Tabs.TabPane tab="Proccess-1" key="6">
+              <Proccess1 />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-2" key="7">
+              <Proccess2 />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-3" key="8">
+              <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-4" key="9">
+              <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-5" key="10">
+              <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-6" key="11">
+              <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-7" key="12">
+              <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-8" key="13">
+              <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-9" key="14">
+              <PurchasedOrder />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Proccess-10" key="15">
+              <PurchasedOrder />
             </Tabs.TabPane>
           </Tabs>
         </Tabs.TabPane>
