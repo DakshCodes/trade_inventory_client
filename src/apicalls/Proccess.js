@@ -5,7 +5,7 @@ import { axiosInstance } from "./axiosInstance";
 
 export const AddPProduct = async (payload) => {
     try {
-        const response = await axiosInstance.post("/api/proccess/add-product", payload);
+        const response = await axiosInstance.post("/api/process/add-product", payload);
         return response.data;
     } catch (error) {
         return error.message;
@@ -16,7 +16,7 @@ export const AddPProduct = async (payload) => {
 // Get suppliers
 export const GetPProduct = async () => {
     try {
-        const response = await axiosInstance.get("/api/proccess/get-product");
+        const response = await axiosInstance.get("/api/process/get-product");
         return response.data;
     } catch (error) {
         return error.message;
@@ -26,7 +26,7 @@ export const GetPProduct = async () => {
 // edit a supplier
 export const EditPProduct = async (id, payload) => {
     try {
-        const response = await axiosInstance.put(`/api/proccess/edit-product/${id}`, payload);
+        const response = await axiosInstance.put(`/api/process/edit-product/${id}`, payload);
         return response.data
     } catch (error) {
         return error.message;
@@ -36,7 +36,7 @@ export const EditPProduct = async (id, payload) => {
 // delete supplier
 export const DeletePProduct = async (id) => {
     try {
-        const response = await axiosInstance.delete(`/api/proccess/delete-product/${id}`);
+        const response = await axiosInstance.delete(`/api/process/delete-product/${id}`);
         return response.data;
     } catch (error) {
         return error.message;

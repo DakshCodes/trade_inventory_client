@@ -36,23 +36,12 @@ const Proccess1 = () => {
         },
         {
             title: "Product Name",
-            dataIndex: "material_name",
+            dataIndex: "product_name",
 
 
         },
-        {
-            title: "Type",
-            dataIndex: "material_type",
-
-        },
-        {
-            title: "Description",
-            dataIndex: "description",
-        },
-        {
-            title: "GST(%)",
-            dataIndex: "material_GST",
-        },
+        
+        
         {
             title: "Action",
             dataIndex: "action",

@@ -37,7 +37,8 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
     }
 
 
-    const addFields2 = () => {
+    const addFields2 = (e) => {
+        e.preventDefault();
         let newfield2 = {}
 
         setInputFields2([...inputFields2, newfield2])
@@ -389,7 +390,7 @@ const PurchaseOrderForm = ({ rawMaterials, finishedProduct, getPurchase, supplie
                                 </Row>
                             ))}
                             <div className='flex justify-center items-center'>
-                                <button id="addMore" onClick={addFields2} className='border px-3 py-2 border-teal-400 rounded-xl text-black/60 hover:text-black transition-all duration-300' >Add more fields</button>
+                                <button id="addMore" onClick={(e)=>addFields2(e)} className='border px-3 py-2 border-teal-400 rounded-xl text-black/60 hover:text-black transition-all duration-300' >Add more fields</button>
                             </div>
                         </div>
                     </Form>
