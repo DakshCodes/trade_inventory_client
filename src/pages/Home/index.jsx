@@ -11,7 +11,24 @@ import Proccess1 from '../Proccess-1';
 import Proccess2 from '../Proccess-2';
 import PurchasedOrder from '../PurchaseOrder';
 import ReceviedOrder from '../ReceviedPO';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import Proccess3 from '../Proccess-3';
+import Proccess4 from '../Proccess-4';
+import Proccess5 from '../Proccess-5';
+import Proccess6 from '../Proccess-6';
 
 const Home = () => {
   const { user } = useSelector((state) => state.users);
@@ -70,13 +87,13 @@ const Home = () => {
               <Proccess3 />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Proccess-4" key="9">
-              <PurchasedOrder />
+              <Proccess4 />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Proccess-5" key="10">
-              <PurchasedOrder />
+              <Proccess5 />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Proccess-6" key="11">
-              <PurchasedOrder />
+              <Proccess6 />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Proccess-7" key="12">
               <PurchasedOrder />
