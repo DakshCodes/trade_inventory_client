@@ -11,7 +11,7 @@ import { AddPProduct, EditPProduct, EditPProduct2 } from '../../apicalls/Procces
 
 
 
-const P8Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProcessID, MaterialTypes, getDataType, selectedProduct }) => {
+const P10Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProcessID, MaterialTypes, getDataType, selectedProduct }) => {
 
 
     const rules = [
@@ -90,7 +90,7 @@ const P8Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
     useEffect(() => {
         if (selectedProduct) {
             console.log(selectedProduct)
-            if (!selectedProduct.stage[7]) {
+            if (!selectedProduct.stage[9]) {
                 selectedProduct.stage.forEach((stage, index) => {
                     stage.materials.forEach((material, index) => {
                         material.applied_product_quantity = material.received_product_quantity;
@@ -98,7 +98,7 @@ const P8Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
                 });
             }
 
-            formRef?.current?.setFieldsValue(selectedProduct.stage[7] || selectedProduct.stage[6])
+            formRef?.current?.setFieldsValue(selectedProduct.stage[9] || selectedProduct.stage[8])
         }
     }, [selectedProduct])
 
@@ -125,7 +125,7 @@ const P8Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
             let response = null;
             console.log("id :" + selectedProduct._id)
 
-            if (selectedProduct.stage[7]) {
+            if (selectedProduct.stage[9]) {
                 // this is for editing the product details of next element(if exists) 
                 response = await EditPProduct(selectedProduct._id, values);
             } else {
@@ -255,4 +255,4 @@ const P8Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
     )
 }
 
-export default P8Form
+export default P10Form
