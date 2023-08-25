@@ -7,11 +7,11 @@ import { SetLoader } from "../../redux/loadersSlice"
 // import { AddSupplier, EditSupplier } from '../../apicalls/supplier'
 import { AddMaterial, EditMaterial } from '../../apicalls/rawmaterial'
 import { GetMaterialType } from '../../apicalls/materialtype'
-import { AddPProduct, EditPProduct } from '../../apicalls/Proccess'
+import { AddPProduct, EditPProduct, EditPProduct2 } from '../../apicalls/Proccess'
 
 
 
-const P2Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialTypes, getDataType, selectedProduct }) => {
+const P2Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProcessID, MaterialTypes, getDataType, selectedProduct }) => {
 
 
     const rules = [
@@ -35,47 +35,109 @@ const P2Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
         {},
     ])
 
-    const addFields = () => {
-        let newfield = {}
-        setInputFields([...inputFields, newfield])
-    }
+    const addFields = (event) => {
+        event.preventDefault();
+        const newField = {
+            particulars: "",
+            applied_product_quantity: 0,
+            received_product_quantity: 0,
+            garbage_quantity: 0,
+        };
+        setInputFields([...inputFields, newField]);
+    };
 
+    const handleDelete = (indexToDelete) => {
+        const updatedArray = inputFields.filter((item, index) => index !== indexToDelete);
+        const updatedValuesArray = arrayfieldValues.materials.filter((item, index) => index !== indexToDelete);
+
+        setInputFields(updatedArray);
+        setArrayFieldValues({
+            materials: updatedValuesArray,
+        });
+    };
 
     const formRef = React.useRef(null);
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.users);
 
+    const [arrayfieldValues, setArrayFieldValues] = useState({
+        materials: inputFields.map(() => ({
+            particulars: "",
+            applied_product_quantity: 0,
+            received_product_quantity: 0,
+            garbage_quantity: 0, // Initialize with default value
+        })),
+    })
 
+    const handleValuesChange = (changedValues, allValues) => {
+        const updatedFields = allValues.materials.map((field, index) => {
+            const appliedQuantity = field.applied_product_quantity || 0;
+            const receivedQuantity = field.received_product_quantity || 0;
+            const garbageQuantity = appliedQuantity - receivedQuantity;
+            console.log(garbageQuantity)
+
+            return {
+                ...field,
+                garbage_quantity: garbageQuantity,
+            };
+        });
+
+        setArrayFieldValues({
+            materials: updatedFields,
+        });
+    };
 
     useEffect(() => {
         if (selectedProduct) {
-            formRef.current.setFieldsValue(selectedProduct)
+            console.log(selectedProduct)
+            if (!selectedProduct.stage[1]) {
+                selectedProduct.stage.forEach((stage, index) => {
+                    stage.materials.forEach((material, index) => {
+                        material.applied_product_quantity = material.received_product_quantity;
+                    })
+                });
+            }
+
+            formRef?.current?.setFieldsValue(selectedProduct.stage[1] || selectedProduct.stage[0])
         }
     }, [selectedProduct])
 
     // useEffect(() => {
     //     getDataType();
     // }, [])
-
     // console.log(MaterialTypes)
     const onFinish = async (values) => {
+
+        
+        values.materials.forEach(material => {
+            const appliedQuantity = material.applied_product_quantity || 0;
+            const receivedQuantity = material.received_product_quantity || 0;
+            material.garbage_quantity = appliedQuantity - receivedQuantity;
+        });
+
+        console.log(values)
+        
+
         try {
 
             dispatch(SetLoader(true));
 
             let response = null;
+            console.log("id :" + selectedProduct._id)
 
-            if (selectedProduct) {
+            if (selectedProduct.stage[1]) {
+                // this is for editing the product details of next element(if exists) 
                 response = await EditPProduct(selectedProduct._id, values);
             } else {
-                response = await AddPProduct(values);  //we need to specify the response vvariable otherwise it wont work
+                // this is for adding a new stage element 
+                response = await EditPProduct2(selectedProduct._id, values);
             }
 
             dispatch(SetLoader(false));
             if (response.success) {
                 message.success(response.message);
                 getData();
-                setShowP1Form(false);
+                setShowP2Form(false);
                 formRef.current.resetFields();
             }
             else {
@@ -91,15 +153,15 @@ const P2Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
     return (
         <div>
             <Modal
-                open={showP1Form}
-                onCancel={() => setShowP1Form(false)}
-                width={800}
+                open={showP2Form}
+                onCancel={() => setShowP2Form(false)}
+                width={1000}
                 centered
                 okText={`${selectedProduct ? "Save Changes" : "Add Material"}`}
                 onOk={() => {
                     formRef.current.submit();
                 }}
-                className=' !w-[65vw]  h-[60vh] overflow-y-scroll'
+                className=' h-[60vh] overflow-y-scroll'
 
             >
 
@@ -109,6 +171,7 @@ const P2Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
                         layout="vertical"
                         ref={formRef}
                         onFinish={onFinish}
+                        onValuesChange={(changedValues, allValues) => handleValuesChange(changedValues, allValues)}
                     >
                         <div className="mb-3">
                             <Row gutter={[20, 20]}>
@@ -139,7 +202,7 @@ const P2Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
                                     </Form.Item>
                                     <Form.Item
                                         label="Material Quantity"
-                                        name={['materials', index, 'order_quantity']} // Use array notation for field names
+                                        name={['materials', index, 'applied_product_quantity']} // Use array notation for field names
                                         rules={rules}
                                         className="!ml-6"
                                     >
@@ -147,19 +210,19 @@ const P2Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
                                             type="number"
                                             className="h-[2.2rem] placeholder-gray-500"
                                             placeholder="0"
-                                            onChange={MaterialQuantityhandle}
+                                        // onChange={MaterialQuantityhandle}
                                         />
                                     </Form.Item>
                                     <Form.Item
                                         label="Finish Product"
-                                        name={['materials', index, 'finish_product']} // Use array notation for field names
+                                        name={['materials', index, 'received_product_quantity']} // Use array notation for field names
                                         className="!ml-6 "
                                     >
                                         <Input
                                             type="number"
                                             className="h-[2.2rem] placeholder-gray-500"
                                             placeholder="0"
-                                            onChange={handlegarbage}
+                                        // onChange={handlegarbage}
                                         />
                                     </Form.Item>
                                     <Form.Item
@@ -169,10 +232,10 @@ const P2Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
                                         className="!ml-6"
                                     >
                                         <Input
-                                            value={Garbage}
                                             type="number"
                                             className="h-[2.2rem] placeholder-gray-500"
-                                            placeholder={Garbage}
+                                            value={arrayfieldValues.materials[index]?.garbage_quantity}
+                                            placeholder={arrayfieldValues.materials[index]?.garbage_quantity}
                                             disabled="true"
                                         />
                                     </Form.Item>

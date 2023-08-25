@@ -36,7 +36,7 @@ const Proccess1 = () => {
         },
         {
             title: "Product Name",
-            dataIndex: "product_name",
+            dataIndex: "nextStageValues",
 
 
         },
@@ -76,7 +76,7 @@ const Proccess1 = () => {
             dispatch(SetLoader(false));
             if (response.success) {
                 setp1Products(response.data);
-                console.log(p1Products)
+                console.log("cool : ", response.data)
             }
         } catch (error) {
             dispatch(SetLoader(false));

@@ -66,8 +66,11 @@ const P1Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
     useEffect(() => {
 
         if (selectedProduct) {
-            formRef.current.setFieldsValue(selectedProduct)
+            formRef.current.setFieldsValue(selectedProduct.stage[0])
         }
+        console.log("my id : "+selectedProduct?._id)
+        console.log(selectedProduct)
+
     }, [selectedProduct])
 
 
@@ -98,8 +101,14 @@ const P1Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
     };
 
     const onFinish = async (values) => {
-        console.log(values)
 
+        const nextStageValues = values.materials.reduce((sum, material) => {
+            return sum + (parseInt(material.received_product_quantity) || 0);
+        }, 0);
+
+        console.log(nextStageValues);
+
+        values.nextStageValues = nextStageValues;
 
         values.materials.forEach(material => {
             const appliedQuantity = material.applied_product_quantity || 0;
@@ -107,6 +116,8 @@ const P1Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
             material.garbage_quantity = appliedQuantity - receivedQuantity;
         });
 
+        console.log(values)
+        
 
         try {
 
@@ -115,7 +126,7 @@ const P1Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
             let response = null;
 
             if (selectedProduct) {
-                response = await EditPProduct(selectedProduct._id, values);
+                response = await EditPProduct(selectedProduct?._id, values);
             } else {
                 response = await AddPProduct(values);  //we need to specify the response vvariable otherwise it wont work
             }
@@ -230,7 +241,7 @@ const P1Form = ({ rawMaterials, setShowP1Form, showP1Form, getData, MaterialType
                                 </Row>
                             ))}
                             <div className='flex justify-center items-center  ml-10'>
-                                <button id="addMore"  onClick={(event) => addFields(event)} className='border px-3 py-2 border-teal-400 rounded-xl text-black/60 hover:text-black transition-all duration-300' >Add more fields</button>
+                                <button id="addMore" onClick={(event) => addFields(event)} className='border px-3 py-2 border-teal-400 rounded-xl text-black/60 hover:text-black transition-all duration-300' >Add more fields</button>
                             </div>
                         </Row>
                     </Form>

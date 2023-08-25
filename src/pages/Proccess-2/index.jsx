@@ -12,7 +12,7 @@ import "../../index.css"
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
 import { GetMaterialType } from '../../apicalls/materialtype';
 import { DeletePProduct, GetPProduct } from '../../apicalls/Proccess';
-// import P1Form from './Proccess-1-form.';
+// import P2Form from './Proccess-1-form.';
 import P2Form from './Proccess-form.';
 
 
@@ -20,10 +20,11 @@ import P2Form from './Proccess-form.';
 
 const Proccess2 = () => {
     const [selectedProduct, setSelectedProduct] = React.useState(null);
-    const [p1Products, setp1Products] = React.useState([]);
+    const [selectedProcessID, setSelectedProcessID] = React.useState(null);
+    const [p2Products, setp2Products] = React.useState([]);
     const [rawMaterials, setRawMaterials] = React.useState([])
     const [MaterialTypes, setMaterialTypes] = React.useState([]);
-    const [showP1Form, setShowP1Form] = React.useState(false);
+    const [showP2Form, setShowP2Form] = React.useState(false);
     const { user } = useSelector((state) => state.users);
     const dispatch = useDispatch();
 
@@ -37,23 +38,11 @@ const Proccess2 = () => {
         },
         {
             title: "Product Name",
-            dataIndex: "material_name",
+            dataIndex: "nextStageValues",
 
 
         },
-        {
-            title: "Type",
-            dataIndex: "material_type",
-
-        },
-        {
-            title: "Description",
-            dataIndex: "description",
-        },
-        {
-            title: "GST(%)",
-            dataIndex: "material_GST",
-        },
+     
         {
             title: "Action",
             dataIndex: "action",
@@ -64,7 +53,8 @@ const Proccess2 = () => {
                             className='ri-pencil-line cursor-pointer'
                             onClick={() => {
                                 setSelectedProduct(record);
-                                setShowP1Form(true)
+                                setSelectedProcessID(record?._id);
+                                setShowP2Form(true)
                             }}
                         />
                         <RiDeleteBin4Fill
@@ -87,8 +77,8 @@ const Proccess2 = () => {
             const response = await GetPProduct();
             dispatch(SetLoader(false));
             if (response.success) {
-                setp1Products(response.data);
-                console.log(p1Products)
+                setp2Products(response.data);
+                console.log(p2Products)
             }
         } catch (error) {
             dispatch(SetLoader(false));
@@ -96,7 +86,7 @@ const Proccess2 = () => {
         }
     };
 
-
+    console.log(selectedProduct)
 
     const deleteProduct = async (id) => {
         try {
@@ -143,16 +133,16 @@ const Proccess2 = () => {
                 {/* <button
                     type='primary'
                     className='bg-sky-500 text-white my-4 px-2 h-[2.3rem] w-[9rem]  border-[1px] border-teal-600 border-solid hover:scale-105 rounded-md hover:transition-all duration-150 hover:bg-sky-400'
-                    onClick={() => { setShowP1Form(true) }}
+                    onClick={() => { setShowP2Form(true) }}
                 >Add Product</button> */}
                 <div>
                     Search
                 </div>
 
             </div>
-            <Table size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={p1Products} />
+            <Table size='large' className='scroll-bar px-2  w-full overflow-x-scroll rounded-md border-[1px] border-teal-600  h-[380px]' columns={columns} dataSource={p2Products} />
             {/* {showProductForm && <ProductsForms getData={getData} showProductForm={showProductForm} selectedProduct={selectedProduct} setShowProductForm={setShowProductForm} />} */}
-            {setShowP1Form && <P2Form rawMaterials={rawMaterials} MaterialTypes={MaterialTypes} getData={getData} setShowP1Form={setShowP1Form} showP1Form={showP1Form} selectedProduct={selectedProduct} />}
+            {setShowP2Form && <P2Form rawMaterials={rawMaterials} selectedProcessID={selectedProcessID} MaterialTypes={MaterialTypes} getData={getData} setShowP2Form={setShowP2Form} showP2Form={showP2Form} selectedProduct={selectedProduct} />}
         </div>
     )
 }

@@ -32,6 +32,15 @@ export const EditPProduct = async (id, payload) => {
         return error.message;
     }
 }
+// edit a supplier
+export const EditPProduct2 = async (id, payload) => {
+    try {
+        const response = await axiosInstance.put(`/api/process/edit-product2/${id}`, payload);
+        return response.data
+    } catch (error) {
+        return error.message;
+    }
+}
 
 // delete supplier
 export const DeletePProduct = async (id) => {
