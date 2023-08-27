@@ -39,7 +39,7 @@ const Home = () => {
   return (
 
     <div className='main-content '>
-      <Tabs defaultActiveKey="1" className='mx-6' size="large">
+      <Tabs className='mx-6' size="large">
         <Tabs.TabPane tab="Home" key="1">
           <div className='flex flex-col items-center text-center justify-center h-[50vh] w-[100%] m-auto text-4xl'>
             <h1 className='text-5xl font-semibold my-4'>Welcome</h1>
@@ -47,6 +47,8 @@ const Home = () => {
             <h1 className='font-extralight'>Explore Trade Inventory </h1>
           </div>
         </Tabs.TabPane>
+
+
         <Tabs.TabPane tab="Masters" key="2">
           <Tabs defaultActiveKey="1" size='small' >
             <Tabs.TabPane tab="Manage Firm" key="1">
@@ -66,6 +68,8 @@ const Home = () => {
             </Tabs.TabPane>
           </Tabs>
         </Tabs.TabPane>
+
+
         <Tabs.TabPane tab="Manage Purchase" key="3">
           <Tabs defaultActiveKey="1" className='' >
             <Tabs.TabPane tab="Generate Purchase Orders" key="3">
@@ -79,36 +83,38 @@ const Home = () => {
             </Tabs.TabPane>
           </Tabs>
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Proccess" key="4">
+
+        {/* Process Mater */}
+        <Tabs.TabPane tab="Process" key="4">
           <Tabs defaultActiveKey="1" className='' >
-            <Tabs.TabPane tab="Proccess-1" key="6">
+            <Tabs.TabPane tab="Laying" key="6">
               <Proccess1 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-2" key="7">
+            <Tabs.TabPane tab="Making" key="7">
               <Proccess2 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-3" key="8">
+            <Tabs.TabPane tab="Cutting" key="8">
               <Proccess3 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-4" key="9">
+            <Tabs.TabPane tab="Embroidery" key="9">
               <Proccess4 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-5" key="10">
+            <Tabs.TabPane tab="Dye" key="10">
               <Proccess5 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-6" key="11">
+            <Tabs.TabPane tab="Stitching" key="11">
               <Proccess6 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-7" key="12">
+            <Tabs.TabPane tab="Finishing" key="12">
               <Proccess7 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-8" key="13">
+            <Tabs.TabPane tab="Quality Assurance" key="13">
               <Proccess8 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-9" key="14">
+            <Tabs.TabPane tab="Pressing" key="14">
               <Proccess9 />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Proccess-10" key="15">
+            <Tabs.TabPane tab="Packaging" key="15">
               <Proccess10 />
             </Tabs.TabPane>
           </Tabs>

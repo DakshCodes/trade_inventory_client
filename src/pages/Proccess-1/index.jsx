@@ -11,7 +11,7 @@ import "../../index.css"
 // import ManageRawForm from './ManageRawForm';
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
 import { GetMaterialType } from '../../apicalls/materialtype';
-import { DeletePProduct, GetPProduct } from '../../apicalls/Proccess';
+import { DeletePProduct, GetPProduct, NextStageIncr } from '../../apicalls/Proccess';
 import P1Form from './Proccess-1-form.';
 
 
@@ -36,12 +36,30 @@ const Proccess1 = () => {
         },
         {
             title: "Product Name",
-            dataIndex: "nextStageValues",
+            render: (text, record) => {
+                return (
+                    <div className='flex gap-5 text-lg'>
+                        <span >{record.stage[0].product_name}</span>
+                    </div>
+                )
+            }
 
 
         },
-        
-        
+
+        {
+            title: "Action",
+            dataIndex: "action",
+            // align : "center",
+            render: (text, record) => {
+                return (
+                    <div className='flex gap-5 text-lg'>
+                        <button title='send to next process' onClick={() => handleNextProcess(record._id)} className='border hover:transition-all hover:duration-300 text-sm border-green-800 py-2 px-4 rounded-md hover:bg-green-300 hover:text-green-800'>Send to next process</button>
+                    </div>
+                )
+            }
+        },
+
         {
             title: "Action",
             dataIndex: "action",
@@ -66,8 +84,22 @@ const Proccess1 = () => {
                 )
             }
         },
+     
     ]
 
+    const handleNextProcess = async (id) => {
+        try {
+            dispatch(SetLoader(true));
+            const response = await NextStageIncr(id);
+            dispatch(SetLoader(false));
+            if (response.success) {
+                getData();
+            }
+        } catch (error) {
+            dispatch(SetLoader(false));
+            message.error(error.message);
+        }
+    }
 
     const getData = async () => {
         try {
@@ -75,8 +107,11 @@ const Proccess1 = () => {
             const response = await GetPProduct();
             dispatch(SetLoader(false));
             if (response.success) {
-                setp1Products(response.data);
-                console.log("cool : ", response.data)
+                let products = response.data.filter((data) => {
+                    return data.nextStageValues === 1;
+                })
+                setp1Products(products);
+                console.log("cool : ", products)
             }
         } catch (error) {
             dispatch(SetLoader(false));

@@ -11,7 +11,7 @@ import "../../index.css"
 // import ManageRawForm from './ManageRawForm';
 import { DeleteMaterial, GetMaterial } from '../../apicalls/rawmaterial';
 import { GetMaterialType } from '../../apicalls/materialtype';
-import { DeletePProduct, GetPProduct } from '../../apicalls/Proccess';
+import { DeletePProduct, GetPProduct, NextStageIncr } from '../../apicalls/Proccess';
 // import P2Form from './Proccess-1-form.';
 import P4Form from './Proccess-form.';
 
@@ -38,11 +38,30 @@ const Proccess4 = () => {
         },
         {
             title: "Product Name",
-            dataIndex: "nextStageValues",
+            render: (text, record) => {
+                return (
+                    <div className='flex gap-5 text-lg'>
+                        <span >{record?.stage[0]?.product_name || record?.stage[1]?.product_name}</span>
+                    </div>
+                )
+            }
 
 
         },
-     
+
+        {
+            title: "Action",
+            dataIndex: "action",
+            // align : "center",
+            render: (text, record) => {
+                return (
+                    <div className='flex gap-5 text-lg'>
+                        <button title='send to next process' onClick={() => handleNextProcess(record._id)} className='border hover:transition-all hover:duration-300 text-sm border-green-800 py-2 px-4 rounded-md hover:bg-green-300 hover:text-green-800'>Send to next process</button>
+                    </div>
+                )
+            }
+        },
+
         {
             title: "Action",
             dataIndex: "action",
@@ -53,7 +72,6 @@ const Proccess4 = () => {
                             className='ri-pencil-line cursor-pointer'
                             onClick={() => {
                                 setSelectedProduct(record);
-                                setSelectedProcessID(record?._id);
                                 setShowP2Form(true)
                             }}
                         />
@@ -68,8 +86,23 @@ const Proccess4 = () => {
                 )
             }
         },
+        
     ]
 
+    const handleNextProcess = async (id) => {
+        try {
+            dispatch(SetLoader(true));
+            const response = await NextStageIncr(id);
+            dispatch(SetLoader(false));
+            if (response.success) {
+                message.success(response.message)
+                getData();
+            }
+        } catch (error) {
+            dispatch(SetLoader(false));
+            message.error(error.message);
+        }
+    }
 
     const getData = async () => {
         try {
@@ -77,8 +110,11 @@ const Proccess4 = () => {
             const response = await GetPProduct();
             dispatch(SetLoader(false));
             if (response.success) {
-                setp2Products(response.data);
-                console.log(p2Products)
+                let products = response.data.filter((data) => {
+                    return data.nextStageValues === 4;
+                })
+                setp2Products(products);
+                console.log("cool : ", products)
             }
         } catch (error) {
             dispatch(SetLoader(false));

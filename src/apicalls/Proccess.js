@@ -41,6 +41,15 @@ export const EditPProduct2 = async (id, payload) => {
         return error.message;
     }
 }
+// edit a supplier
+export const NextStageIncr = async (id) => {
+    try {
+        const response = await axiosInstance.put(`/api/process/edit-stage-values/${id}`);
+        return response.data
+    } catch (error) {
+        return error.message;
+    }
+}
 
 // delete supplier
 export const DeletePProduct = async (id) => {
