@@ -33,6 +33,8 @@ import Proccess7 from '../Proccess-7';
 import Proccess8 from '../Proccess-8';
 import Proccess9 from '../Proccess-9';
 import Proccess10 from '../Proccess-10';
+import Summary from '../Summary/Summary';
+import Report from '../Report/Report';
 
 const Home = () => {
   const { user } = useSelector((state) => state.users);
@@ -83,7 +85,6 @@ const Home = () => {
             </Tabs.TabPane>
           </Tabs>
         </Tabs.TabPane>
-
         {/* Process Mater */}
         <Tabs.TabPane tab="Process" key="4">
           <Tabs defaultActiveKey="1" className='' >
@@ -117,7 +118,13 @@ const Home = () => {
             <Tabs.TabPane tab="Packaging" key="15">
               <Proccess10 />
             </Tabs.TabPane>
+            <Tabs.TabPane tab="Summary Of Proccess" key="16">
+              <Summary />
+            </Tabs.TabPane>
           </Tabs>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Report" key="5">
+          <Report />
         </Tabs.TabPane>
       </Tabs>
     </div>
