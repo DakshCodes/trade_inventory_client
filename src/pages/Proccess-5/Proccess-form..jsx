@@ -7,7 +7,7 @@ import { SetLoader } from "../../redux/loadersSlice"
 // import { AddSupplier, EditSupplier } from '../../apicalls/supplier'
 import { AddMaterial, EditMaterial } from '../../apicalls/rawmaterial'
 import { GetMaterialType } from '../../apicalls/materialtype'
-import { AddPProduct, EditPProduct, EditPProduct2 } from '../../apicalls/Proccess'
+import { AddPProduct, EditPProduct, EditPProduct2, EditProductOnceInitialised } from '../../apicalls/Proccess'
 
 
 
@@ -99,8 +99,12 @@ const P5Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
             }
 
             formRef?.current?.setFieldsValue(selectedProduct.stage[4] || selectedProduct.stage[3])
+            console.log("check :" + selectedProduct.stage[4])
+
         }
+
     }, [selectedProduct])
+
 
     // useEffect(() => {
     //     getDataType();
@@ -125,13 +129,16 @@ const P5Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
             let response = null;
             console.log("id :" + selectedProduct._id)
 
-            if (selectedProduct.stage[3]) {
+          
+
+            if (selectedProduct.stage[4]) {
+                    response = await EditProductOnceInitialised(selectedProduct._id, values , 4);
+            } 
+            else{
                 // this is for editing the product details of next element(if exists) 
-                response = await EditPProduct(selectedProduct._id, values);
-            } else {
-                // this is for adding a new stage element 
                 response = await EditPProduct2(selectedProduct._id, values);
             }
+            
 
             dispatch(SetLoader(false));
             if (response.success) {

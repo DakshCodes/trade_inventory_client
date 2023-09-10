@@ -23,6 +23,16 @@ export const GetPProduct = async () => {
     }
 }
 
+// Get suppliers
+export const GetPProductID = async (id) => {
+    try {
+        const response = await axiosInstance.get(`/api/process/get-product-by-id/${id}`);
+        return response.data;
+    } catch (error) {
+        return error.message;
+    }
+}
+
 // edit a supplier
 export const EditPProduct = async (id, payload) => {
     try {
@@ -41,6 +51,17 @@ export const EditPProduct2 = async (id, payload) => {
         return error.message;
     }
 }
+
+// Edit the existng product value if it is created in the stage
+export const EditProductOnceInitialised = async (id, payload , stageIndex) => {
+    try {
+        const response = await axiosInstance.put(`/api/process/edit-product-initialised/${id}/${stageIndex}`, payload);
+        return response.data
+    } catch (error) {
+        return error.message;
+    }
+}
+
 // edit a supplier
 export const NextStageIncr = async (id) => {
     try {

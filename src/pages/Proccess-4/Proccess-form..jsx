@@ -7,7 +7,7 @@ import { SetLoader } from "../../redux/loadersSlice"
 // import { AddSupplier, EditSupplier } from '../../apicalls/supplier'
 import { AddMaterial, EditMaterial } from '../../apicalls/rawmaterial'
 import { GetMaterialType } from '../../apicalls/materialtype'
-import { AddPProduct, EditPProduct, EditPProduct2 } from '../../apicalls/Proccess'
+import { AddPProduct, EditPProduct, EditPProduct2, EditProductOnceInitialised } from '../../apicalls/Proccess'
 
 
 
@@ -126,10 +126,11 @@ const P4Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
             console.log("id :" + selectedProduct._id)
 
             if (selectedProduct.stage[3]) {
+                console.log(selectedProduct.stage[3])
+                response = await EditProductOnceInitialised(selectedProduct._id, values, 3);
+            }
+            else {
                 // this is for editing the product details of next element(if exists) 
-                response = await EditPProduct(selectedProduct._id, values);
-            } else {
-                // this is for adding a new stage element 
                 response = await EditPProduct2(selectedProduct._id, values);
             }
 

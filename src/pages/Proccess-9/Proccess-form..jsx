@@ -7,7 +7,7 @@ import { SetLoader } from "../../redux/loadersSlice"
 // import { AddSupplier, EditSupplier } from '../../apicalls/supplier'
 import { AddMaterial, EditMaterial } from '../../apicalls/rawmaterial'
 import { GetMaterialType } from '../../apicalls/materialtype'
-import { AddPProduct, EditPProduct, EditPProduct2 } from '../../apicalls/Proccess'
+import { AddPProduct, EditPProduct, EditPProduct2, EditProductOnceInitialised } from '../../apicalls/Proccess'
 
 
 
@@ -108,7 +108,7 @@ const P9Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
     // console.log(MaterialTypes)
     const onFinish = async (values) => {
 
-        
+
         values.materials.forEach(material => {
             const appliedQuantity = material.applied_product_quantity || 0;
             const receivedQuantity = material.received_product_quantity || 0;
@@ -116,7 +116,7 @@ const P9Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
         });
 
         console.log(values)
-        
+
 
         try {
 
@@ -125,11 +125,12 @@ const P9Form = ({ rawMaterials, setShowP2Form, showP2Form, getData, selectedProc
             let response = null;
             console.log("id :" + selectedProduct._id)
 
+
             if (selectedProduct.stage[8]) {
+                response = await EditProductOnceInitialised(selectedProduct._id, values, 8);
+            }
+            else {
                 // this is for editing the product details of next element(if exists) 
-                response = await EditPProduct(selectedProduct._id, values);
-            } else {
-                // this is for adding a new stage element 
                 response = await EditPProduct2(selectedProduct._id, values);
             }
 

@@ -8,6 +8,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Spinner from "./components/Spinner";
 import ResetPassword from "./components/ResetPassword";
 import PurchasePreview from "./pages/PurchaseOrder/PurchasePreview";
+import TestComp from "./pages/Summary/TestComp";
+import SummaryPreview from "./pages/Summary/SummaryPreview";
 
 
 
@@ -22,6 +24,7 @@ function App() {
           <Routes>
             <Route path='/' element={<ProtectedPage><Home /></ProtectedPage>} />
             <Route path='/auth' element={<Auth />} />
+            <Route path='/process-summary/:id' element={<SummaryPreview />} />
             <Route path='/purchase-order-preview/:id' element={<PurchasePreview />} />
             <Route path='/users/confirm/:token' element={<Verified />} />
             <Route path='/forget-password' element={<ForgetPassword />} />
