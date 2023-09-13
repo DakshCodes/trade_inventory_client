@@ -1,10 +1,13 @@
-import { Col, Form, Input, Modal, Row, Tabs, message } from 'antd'
+import { Col, Form, Input, Modal, Row, Tabs, message, Upload } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { useDispatch, useSelector } from "react-redux"
 import React, { useEffect } from 'react'
 import Image from './Image'
 import { SetLoader } from "../../redux/loadersSlice"
 import { AddFirm, EditFirm } from '../../apicalls/firms'
+import { Button } from 'antd'
+import { IoMdAdd } from "react-icons/io"
+import { UploadFirmImage } from '../../apicalls/firms'
 
 
 const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selectedFirm }) => {
@@ -15,6 +18,10 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
         }
     ]
 
+    const [headerImage, setheaderImage] = React.useState('')
+    const [FooterImage, setFooterImage] = React.useState('')
+    const [file = null, setFile] = React.useState(null);
+    const [file2 = null, setFile2] = React.useState(null);
     const formRef = React.useRef(null);
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.users);
@@ -25,7 +32,82 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
         }
     }, [selectedFirm])
 
+    const upload = async () => {
+        try {
+            if (!file) {
+                console.log("All fields are required");
+                return;
+            }
+            dispatch(SetLoader(true));
+            // uploading image to cloudinary
+            // Image upload process
+            const data = new FormData();
+            data.append("file", file);
+            data.append("upload_preset", "trade-inventory");
+            data.append("cloud_name", "dwsoscqeu");
+
+            const uploadResponse = await fetch('https://api.cloudinary.com/v1_1/dwsoscqeu/image/upload', {
+                method: "POST",
+                body: data
+            });
+            if (!uploadResponse.ok) {
+                toast.error("Error uploading the image");
+                return;
+            }
+
+            const uploadData = await uploadResponse.json();
+            const imageUrl = uploadData.url;
+            setheaderImage(imageUrl)
+            dispatch(SetLoader(false));
+
+        } catch (error) {
+            // dispatch(SetLoader(false));
+            // message.error(error.message)
+        }
+    }
+    const upload2 = async () => {
+        try {
+            if (!file2) {
+                console.log("All fields are required");
+                return;
+            }
+            dispatch(SetLoader(true));
+            // uploading image to cloudinary
+            // Image upload process
+            const data = new FormData();
+            data.append("file", file2);
+            data.append("upload_preset", "trade-inventory");
+            data.append("cloud_name", "dwsoscqeu");
+
+            const uploadResponse = await fetch('https://api.cloudinary.com/v1_1/dwsoscqeu/image/upload', {
+                method: "POST",
+                body: data
+            });
+            if (!uploadResponse.ok) {
+                toast.error("Error uploading the image");
+                return;
+            }
+
+            const uploadData = await uploadResponse.json();
+            const imageUrl = uploadData.url;
+            setFooterImage(imageUrl)
+            // const response = await UploadFirmImage(formData);
+            dispatch(SetLoader(false));
+
+        } catch (error) {
+            // dispatch(SetLoader(false));
+            // message.error(error.message)
+        }
+    }
+
     const onFinish = async (values) => {
+        console.log(values)
+        // values.forEach((firm, index) => {
+        //     material.purchase_value = material.order_quantity * material.rate;
+        //   });
+        values.header_img = headerImage;
+        values.footer_img = FooterImage;
+        console.log(values)
         try {
 
             dispatch(SetLoader(true));
@@ -109,7 +191,36 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
                         </Row>
 
                         {/* Header img */}
-                        <Image title={"Header Image"} selectedFirm = {selectedFirm} getData ={getData}  />
+                        <div className=' border border-dashed border-sky-500 p-4 '>
+
+                            <Upload
+                                listType='picture'
+                                beforeUpload={() => false}
+                                onChange={(info) => {
+                                    setFile(info.file)
+                                    // setShowPreview(true);
+                                }}
+                            // fileList={file ? [file] : []}
+                            // showUploadList={showPreview}
+
+                            >
+                                <div className='rounded-full p-2 border border-dashed border-sky-500  '>
+                                    <IoMdAdd className='text-2xl' />
+                                </div>
+                            </Upload>
+                            <div>
+                                Header Image
+                            </div>
+
+                            <div className="flex justify-end gap-5 mt-5">
+                                <button
+                                    className='bg-sky-500 text-white rounded-md hover:bg-sky-400 px-3 py-1 '
+                                    disabled={!file}
+                                    onClick={upload}
+                                >Upload</button>
+
+                            </div>
+                        </div>
 
                         {/* Contact Person */}
                         <h1 className="text-3xl mt-8">Contact Person</h1>
@@ -139,7 +250,35 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
                             </Col>
                         </Row>
 
-                        <Image title={"Footer Image"} selectedFirm = {selectedFirm} getData ={getData}/>
+                        <div className=' border border-dashed border-sky-500 p-4 '>
+                            <Upload
+                                listType='picture'
+                                beforeUpload={() => false}
+                                onChange={(info) => {
+                                    setFile2(info.file)
+                                    // setShowPreview(true);
+                                }}
+                            // fileList={file ? [file] : []}
+                            // showUploadList={showPreview}
+
+                            >
+                                <div className='rounded-full p-2 border border-dashed border-sky-500  '>
+                                    <IoMdAdd className='text-2xl' />
+                                </div>
+                            </Upload>
+                            <div>
+                                Footer Image
+                            </div>
+
+                            <div className="flex justify-end gap-5 mt-5">
+                                <button
+                                    className='bg-sky-500 text-white rounded-md hover:bg-sky-400 px-3 py-1 '
+                                    disabled={!file2}
+                                    onClick={upload2}
+                                >Upload</button>
+
+                            </div>
+                        </div>
                     </Form>
 
 
