@@ -28,7 +28,7 @@ const Forms = ({ setShowForm, showForm, selectedProduct }) => {
                 open={showForm}
                 onCancel={() => setShowForm(false)}
                 width={1000}
-                centered
+                centered 
                 onOk={() => {
                     setShowForm(false)
                 }}
