@@ -59,10 +59,11 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
             const imageUrl = uploadData.url;
             setheaderImage(imageUrl)
             dispatch(SetLoader(false));
+            message.success("Upload header");
 
         } catch (error) {
-            // dispatch(SetLoader(false));
-            // message.error(error.message)
+            dispatch(SetLoader(false));
+            message.error(error.message)
         }
     }
     const upload2 = async () => {
@@ -93,6 +94,7 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
             setFooterImage(imageUrl)
             // const response = await UploadFirmImage(formData);
             dispatch(SetLoader(false));
+            message.success("Upload Footer");
 
         } catch (error) {
             // dispatch(SetLoader(false));
@@ -198,10 +200,7 @@ const ManageFirmForm = ({ setShowProductForm, showProductForm, getData, selected
                                 beforeUpload={() => false}
                                 onChange={(info) => {
                                     setFile(info.file)
-                                    // setShowPreview(true);
                                 }}
-                            // fileList={file ? [file] : []}
-                            // showUploadList={showPreview}
 
                             >
                                 <div className='rounded-full p-2 border border-dashed border-sky-500  '>
